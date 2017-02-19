@@ -5,6 +5,8 @@ import logging
 
 class Enigma:
     def __init__(self, debug='ERROR'):
+        self.version = 'v0.1.0'
+        self.isBeta = True
         self.rotors = { 'right' : rotor.rotor() ,
                         'middle' : rotor.rotor(),
                         'left' : rotor.rotor()}
@@ -59,6 +61,7 @@ class Enigma:
         return self.rotors[name2].alpha[n]
 
     def type_letter(self, letter):
+        letter = letter.upper()
         self.logger.debug("-----------------------")
         cipher = self.plugboard.plugboard_conversion(letter)
         self.logger.debug("Plugboard conversion: %s to %s", letter, cipher)
@@ -86,8 +89,8 @@ class Enigma:
         return cipher_out
     
     def type_phrase(self, phrase):
+        phrase = phrase.replace(' ','')
         out_str = ''
-        print(list(phrase))
         for letter in list(phrase):
             out_str += self.type_letter(letter)
         return out_str
