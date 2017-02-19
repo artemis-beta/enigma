@@ -27,7 +27,7 @@ class Enigma:
             self.logger.debug("Rotating rotor %s wires by %s", name, amount)
             self.rotors[name].rotate_inner_ring()
     
-    def set_rotor(self, name, letter):
+    def _set_rotor(self, name, letter):
         self.logger.debug("Setting rotor %s to %s", name, letter)
         while self.rotors[name].input != letter:
             self._move_rotor(name, 1)
@@ -94,3 +94,8 @@ class Enigma:
         for letter in list(phrase):
             out_str += self.type_letter(letter)
         return out_str
+
+    def set_key(self, key):
+	self._set_rotor('left', key[0])
+        self._set_rotor('middle', key[1])
+        self._set_rotor('right', key[2])
