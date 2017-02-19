@@ -96,6 +96,6 @@ class Enigma:
         return out_str
 
     def set_key(self, key):
-	self._set_rotor('left', key[0])
+        self._set_rotor('left', key[0])
         self._set_rotor('middle', key[1])
         self._set_rotor('right', key[2])
