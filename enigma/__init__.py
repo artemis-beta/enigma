@@ -4,15 +4,35 @@ from . import reflector
 import logging
 
 class Enigma:
-    def __init__(self, debug='ERROR'):
+    def __init__(self, rotor_list=[], user_reflector=None, debug='ERROR'):
         self.version = 'v0.1.0'
         self.isBeta = True
+        self._rotor_types = {1 : rotor.rotor_1(),
+                             2 : rotor.rotor_2(),
+                             3 : rotor.rotor_3(),
+                             4 : rotor.rotor_4(),
+                             5 : rotor.rotor_5(),
+                             6 : rotor.rotor_6(),
+                             7 : rotor.rotor_7(),
+                             8 : rotor.rotor_8()}
+        self._reflector_types = {'B' : reflector.reflector_B(),
+                                 'C' : reflector.reflector_C()}
+
         self.rotors = { 'right' : rotor.rotor() ,
                         'middle' : rotor.rotor(),
                         'left' : rotor.rotor()}
         
+        if len(rotor_list) == 3:
+            self.rotors['left'] = self._rotor_types[rotor_list[0]]
+            self.rotors['middle'] = self._rotor_types[rotor_list[1]]
+            self.rotors['right'] = self._rotor_types[rotor_list[2]]
+        
+        if user_reflector:
+            self.reflector = self._reflector_types[user_reflector]
+        else:
+            self.reflector = reflector.reflector()
+        
         self.plugboard = plugboard.plugboard()
-        self.reflector = reflector.reflector()
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(debug)
         logging.basicConfig()
@@ -29,7 +49,7 @@ class Enigma:
     
     def _set_rotor(self, name, letter):
         self.logger.debug("Setting rotor %s to %s", name, letter)
-        while self.rotors[name].input != letter:
+        while self.rotors[name].face != letter:
             self._move_rotor(name, 1)
     
     def _get_rotor_conv(self, name, letter):
@@ -37,28 +57,39 @@ class Enigma:
         return self.rotors[name].get_rotor_conversion(letter)
 
     def _get_rotor_conv_inv(self, name, letter):
-        self.logger.debug("Rotor %s conversion: %s to %s", name, letter, self.rotors[name].get_rotor_conversion(letter))
+        self.logger.debug("Rotor %s conversion: %s to %s", name, letter, self.rotors[name].get_rotor_conversion_inv(letter))
         return self.rotors[name].get_rotor_conversion_inv(letter)
     
     def _get_inter_rotor_conv(self, name1, name2, letter):
-        terminal = self.rotors[name1].get_output_terminal(letter)
-        zero_point = self.rotors[name2].alpha.index(self.rotors[name2].input)
-        if zero_point + terminal > 24:
-            n = zero_point + terminal - 25
+        terminal = self.rotors[name1].alpha.index(letter)
+        zero_point_1 = self.rotors[name1].alpha.index(self.rotors[name1].face)
+        zero_point_2 = self.rotors[name2].alpha.index(self.rotors[name2].face)
+        interval = zero_point_2-zero_point_1
+        if zero_point_2 > zero_point_1:
+            i = [i for i in range(26)]
+            n = i[(terminal+interval) % len(i)]
         else:
-            n = zero_point + terminal
+            i = [i for i in range(26)]
+            n = i[(26+terminal+interval) % len(i)]
+        self.logger.debug("Face Letters: %s, %s", self.rotors[name1].face, self.rotors[name2].face)
         self.logger.debug("Rotor %s rotor to %s rotor conversion: %s to %s", name1, name2, letter, self.rotors[name2].alpha[n])
         return self.rotors[name2].alpha[n]
 
     def _get_inter_rotor_conv_inv(self, name1, name2, letter):
-        terminal = self.rotors[name1].get_input_terminal(letter)
-        zero_point = self.rotors[name2].alpha.index(self.rotors[name2].input)
-        if zero_point + terminal > 24:
-            n = zero_point + terminal - 25
+        terminal = self.rotors[name1].alpha.index(letter)
+        zero_point_1 = self.rotors[name1].alpha.index(self.rotors[name1].face)
+        zero_point_2 = self.rotors[name2].alpha.index(self.rotors[name2].face)
+        interval = zero_point_2-zero_point_1
+        if zero_point_2 > zero_point_1:
+            i = [i for i in range(26)]
+            n = i[(terminal+interval) % len(i)]
         else:
-            n = zero_point + terminal
+            i = [i for i in range(26)]
+            n = i[(26+terminal+interval) % len(i)]
+        #self.logger.debug("Face Letters: %s, %s", self.rotors[name1].face, self.rotors[name2].face)
         self.logger.debug("Rotor %s rotor to %s rotor conversion: %s to %s", name1, name2, letter, self.rotors[name2].alpha[n])
         return self.rotors[name2].alpha[n]
+
 
     def type_letter(self, letter):
         letter = letter.upper()
@@ -66,9 +97,9 @@ class Enigma:
         cipher = self.plugboard.plugboard_conversion(letter)
         self.logger.debug("Plugboard conversion: %s to %s", letter, cipher)
         self._move_rotor('right', 1)
-        if self.rotors['right'].notch == self.rotors['right'].input:
+        if self.rotors['right'].face in self.rotors['right'].notches:
             self._move_rotor('middle', 1)
-        if self.rotors['middle'].notch == self.rotors['middle'].input:
+        if self.rotors['middle'].face in self.rotors['middle'].notches:
             self._move_rotor('middle', 1)
             self._move_rotor('left', 1)
         cipher = self._get_rotor_conv('right', cipher)
@@ -79,15 +110,16 @@ class Enigma:
         cipher = self.reflector.reflector_conversion(cipher)
         cipher = self._get_rotor_conv_inv('left', cipher)
         cipher = self._get_inter_rotor_conv_inv('left', 'middle', cipher)
-        cipher = self._get_rotor_conv('middle', cipher)
+        cipher = self._get_rotor_conv_inv('middle', cipher)
         cipher = self._get_inter_rotor_conv_inv('middle', 'right', cipher)
-        cipher = self._get_rotor_conv('right', cipher)
+        cipher = self._get_rotor_conv_inv('right', cipher)
         cipher_out = self.plugboard.plugboard_conversion_inv(cipher)
         self.logger.debug("Plugboard conversion: %s to %s", cipher, cipher_out)
         self.logger.debug("-----------------------")
 
         return cipher_out
-    
+
+
     def type_phrase(self, phrase):
         phrase = phrase.replace(' ','')
         out_str = ''
