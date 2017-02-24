@@ -11,7 +11,11 @@ class reflector:
 				                 'I' : 'Q', 'J' : 'V'}
         
     def reflector_conversion(self, letter):
-        return self._reflector_dict[letter]
+        try:
+            if self._reflector_dict[letter]:
+                return self._reflector_dict[letter]
+        except:
+            raise SystemExit
 
 class reflector_B(reflector):
     def __init__(self):

@@ -26,7 +26,7 @@ class Enigma:
             self.rotors['left'] = self._rotor_types[rotor_list[0]]
             self.rotors['middle'] = self._rotor_types[rotor_list[1]]
             self.rotors['right'] = self._rotor_types[rotor_list[2]]
-        
+ 
         if user_reflector:
             self.reflector = self._reflector_types[user_reflector]
         else:
@@ -71,8 +71,8 @@ class Enigma:
         else:
             i = [i for i in range(26)]
             n = i[(26+terminal+interval) % len(i)]
-        self.logger.debug("Face Letters: %s, %s", self.rotors[name1].face, self.rotors[name2].face)
         self.logger.debug("Rotor %s rotor to %s rotor conversion: %s to %s", name1, name2, letter, self.rotors[name2].alpha[n])
+        assert self.rotors[name2].alpha[n] is not None
         return self.rotors[name2].alpha[n]
 
     def _get_inter_rotor_conv_inv(self, name1, name2, letter):
@@ -86,8 +86,8 @@ class Enigma:
         else:
             i = [i for i in range(26)]
             n = i[(26+terminal+interval) % len(i)]
-        #self.logger.debug("Face Letters: %s, %s", self.rotors[name1].face, self.rotors[name2].face)
         self.logger.debug("Rotor %s rotor to %s rotor conversion: %s to %s", name1, name2, letter, self.rotors[name2].alpha[n])
+        assert self.rotors[name2].alpha[n] is not None
         return self.rotors[name2].alpha[n]
 
 
@@ -107,7 +107,9 @@ class Enigma:
         cipher = self._get_rotor_conv('middle', cipher)
         cipher = self._get_inter_rotor_conv('middle', 'left', cipher)
         cipher = self._get_rotor_conv('left', cipher)
+        #cipher_old = cipher
         cipher = self.reflector.reflector_conversion(cipher)
+        #self.logger.debug("Reflector conversion %s to %s", cipher_old, cipher)
         cipher = self._get_rotor_conv_inv('left', cipher)
         cipher = self._get_inter_rotor_conv_inv('left', 'middle', cipher)
         cipher = self._get_rotor_conv_inv('middle', cipher)

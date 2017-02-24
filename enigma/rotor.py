@@ -54,13 +54,21 @@ class rotor:
 
     def get_rotor_conversion(self, letter):
         i = self.alpha.index(letter)
-        return self.alpha[self.wiring[i]]
+        try:
+            if self.alpha[self.wiring[i]]: 
+               return self.alpha[self.wiring[i]]
+        except:
+            raise SystemExit
 
     def get_rotor_conversion_inv(self, letter):
         i = self.alpha.index(letter)
         for key in self.wiring:
             if self.wiring[key] == i:
-                return self.alpha[key]
+                try:
+                    if self.alpha[key]:
+                        return self.alpha[key]
+                except:
+                    raise SystemExit
 
 class rotor_1(rotor):
     def __init__(self):
