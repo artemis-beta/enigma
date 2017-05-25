@@ -150,7 +150,7 @@ class Enigma:
             import string, random
             for i in range(remainder):
               fill += random.choice(string.ascii_letters.upper())
-        out_str = ' '.join(out_str[i:i+3] for i in range(0, len(out_str),2)) + fill
+        out_str = ' '.join(out_str[i:i+3] for i in range(0, len(out_str),3)) + fill
         return out_str
 
     def set_key(self, key):
