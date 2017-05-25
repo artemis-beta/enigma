@@ -1,15 +1,7 @@
 class reflector:
     def __init__(self):
-        self._reflector_dict = { 'A' : 'P', 'B' : 'Z', 'C' : 'H',
-                                 'D' : 'S', 'E' : 'Y', 'F' : 'U',
-                                 'G' : 'N', 'H' : 'M', 'K' : 'B',
-                                 'L' : 'F', 'M' : 'D', 'N' : 'K',
-                                 'O' : 'J', 'P' : 'L', 'Q' : 'C',
-                                 'R' : 'T', 'S' : 'W', 'T' : 'X',
-                                 'U' : 'A', 'V' : 'E', 'W' : 'I',
-                                 'X' : 'R', 'Y' : 'O', 'Z' : 'G',
-				                 'I' : 'Q', 'J' : 'V'}
-        
+       	self._reflector_dict = None
+ 
     def reflector_conversion(self, letter):
         try:
             if self._reflector_dict[letter]:
@@ -20,6 +12,7 @@ class reflector:
 class reflector_B(reflector):
     def __init__(self):
         super().__init__()
+        self.name  = 'B'
         self._reflector_dict = { 'A' : 'Y', 'B' : 'R', 'C' : 'U',
                                  'D' : 'H', 'E' : 'Q', 'F' : 'S',
                                  'G' : 'L', 'H' : 'D', 'K' : 'N',
@@ -33,6 +26,7 @@ class reflector_B(reflector):
 class reflector_C(reflector):
     def __init__(self):
         super().__init__()
+        self.name  = 'C'
         self._reflector_dict = { 'A' : 'F', 'B' : 'V', 'C' : 'P',
                                  'D' : 'J', 'E' : 'I', 'F' : 'A',
                                  'G' : 'O', 'H' : 'Y', 'K' : 'R',

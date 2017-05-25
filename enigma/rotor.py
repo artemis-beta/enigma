@@ -56,7 +56,6 @@ class rotor:
 
     def get_rotor_conversion(self, letter):
         i = self.alpha.index(letter)
-        print(self.alpha[self.wiring[i]])
         try:
             assert self.alpha[self.wiring[i]] is not None, "ERROR: Wiring element '{}' returned 'None'"
             return self.alpha[self.wiring[i]]
@@ -67,7 +66,6 @@ class rotor:
         i = self.alpha.index(letter)
         for key in self.wiring:
             if self.wiring[key] == i:
-                print(self.alpha[key])
                 try:
                     assert self.alpha[key] is not None, "ERROR: Wiring element '{}' returned 'None'"
                     return self.alpha[key]

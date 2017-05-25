@@ -9,7 +9,23 @@ logger.setLevel('DEBUG')
 
 class RotorTest(unittest.TestCase):
 
-    @settings(max_examples=2E4)
+    @settings(max_examples=100)
+    @given(letter = strategies.text( alphabet=['A','B','C','D','E','F','G','H','I','J','K','L','M','N',
+                                               'O','P','Q','R','S','T','U','V','W','X','Y','Z'], min_size=1, max_size=1),
+           key    = strategies.text( alphabet = ['A','B','C','D','E','F','G',
+                                              'H','I','J','K','L','M','N',
+                                              'O','P','Q','R','S','T','U',
+                                              'V','W','X','Y','Z'], min_size=3, max_size=3),
+           reflector = strategies.text(alphabet=['B','C'], min_size=1, max_size=1))
+    def test_reflector_conv(self, letter, reflector, key):
+        machine = enigma.Enigma(user_reflector=reflector)
+        machine.set_key(key)
+        out = machine._get_reflector_conv(letter)
+        back = machine._get_reflector_conv(out)
+        logger.debug("Key '%s' - Running Reflector Setting: %s        %s  ----->  %s  ------> %s", key, reflector, letter, out, back)
+        assert back == letter, "Cipher->Decipher Failed to Return Initial Letter"
+
+    @settings(max_examples=100)
     @given(letter = strategies.text( alphabet=['A','B','C','D','E','F','G','H','I','J','K','L','M','N',
                                                'O','P','Q','R','S','T','U','V','W','X','Y','Z'], min_size=1, max_size=1),
            key    = strategies.text( alphabet = ['A','B','C','D','E','F','G',
@@ -25,7 +41,7 @@ class RotorTest(unittest.TestCase):
         logger.debug("Key '%s' - Running InterRotor Setting: %s        %s  ----->  %s  ------> %s", key, rotor_list, letter, out, back)
         assert back == letter, "Cipher->Decipher Failed to Return Initial Letter"
 
-    @settings(max_examples=2E4)
+    @settings(max_examples=100)
     @given(letter = strategies.text( alphabet=['A','B','C','D','E','F','G','H','I','J','K','L','M','N',
                                                'O','P','Q','R','S','T','U','V','W','X','Y','Z'], min_size=1, max_size=1),
            key    = strategies.text( alphabet = ['A','B','C','D','E','F','G',
