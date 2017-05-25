@@ -107,9 +107,7 @@ class Enigma:
         cipher = self._get_rotor_conv('middle', cipher)
         cipher = self._get_inter_rotor_conv('middle', 'left', cipher)
         cipher = self._get_rotor_conv('left', cipher)
-        #cipher_old = cipher
         cipher = self.reflector.reflector_conversion(cipher)
-        #self.logger.debug("Reflector conversion %s to %s", cipher_old, cipher)
         cipher = self._get_rotor_conv_inv('left', cipher)
         cipher = self._get_inter_rotor_conv_inv('left', 'middle', cipher)
         cipher = self._get_rotor_conv_inv('middle', cipher)

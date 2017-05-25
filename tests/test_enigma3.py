@@ -14,7 +14,7 @@ class TestEnigma(unittest.TestCase):
                                               'O','P','Q','R','S','T','U',
                                               'V','W','X','Y','Z'], min_size=3, max_size=3))
     def testAlphabet(self, letter, rotor_list, reflector, key):
-        machine = Enigma(rotor_list=rotor_list, user_reflector=reflector)
+        machine = Enigma(rotor_list=rotor_list, user_reflector=reflector,debug='DEBUG')
         machine.set_key(key)
         machine.type_phrase(letter)
 

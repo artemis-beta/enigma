@@ -54,9 +54,10 @@ class rotor:
 
     def get_rotor_conversion(self, letter):
         i = self.alpha.index(letter)
+        print(self.alpha[self.wiring[i]])
         try:
-            if self.alpha[self.wiring[i]]: 
-               return self.alpha[self.wiring[i]]
+            assert self.alpha[self.wiring[i]] is not None, "ERROR: Wiring element '{}' returned 'None'"
+            return self.alpha[self.wiring[i]]
         except:
             raise SystemExit
 
@@ -64,24 +65,40 @@ class rotor:
         i = self.alpha.index(letter)
         for key in self.wiring:
             if self.wiring[key] == i:
+                print(self.alpha[key])
                 try:
-                    if self.alpha[key]:
-                        return self.alpha[key]
-                except:
+                    assert self.alpha[key] is not None, "ERROR: Wiring element '{}' returned 'None'"
+                    return self.alpha[key]
+                except:  
                     raise SystemExit
+
+        ## Let's Be Safe and Check That All Rotors Function Correctly
+        print("ERROR: Could not find key which returns alphabet index {} in wiring dictionary for rotor '{}':".format(self.alpha.index(letter), self.name))
+        print(list(self.wiring.values()))
+        seen = set()
+        for x in list(self.wiring.values()):
+            if list(self.wiring.values()).count(x) >= 2:
+               seen.add(x)
+        if len(seen) != 0:
+           print("Duplicates found: ")
+           print(seen)
+        else:
+           print("Have you missed out a value in the wiring definition range 0-25?")
+        raise SystemExit
 
 class rotor_1(rotor):
     def __init__(self):
         super().__init__()
+        self.name   = 'I'
         self.wiring = {0 : 4, 1 : 10, 2 : 12,
                     3 : 5, 4 : 11, 5 : 6,
                     6 : 3, 7 : 16, 8 : 21,
                     9 : 25, 10 : 13, 11 : 19,
-                    12 : 15, 13 : 22, 14 : 24,
+                    12 : 14, 13 : 22, 14 : 24,
                     15 : 7, 16 : 23, 17 : 20,
                     18 : 18, 19 : 15, 20 : 0,
                     21 : 8, 22 : 1, 23 : 17,
-                    24 : 2, 25 : 19}
+                    24 : 2, 25 : 9}
         
         self.notches = ['R']
         self.face = 'A'
@@ -90,6 +107,7 @@ class rotor_1(rotor):
 class rotor_2(rotor):
     def __init__(self):
         super().__init__()
+        self.name   = 'II'
         self.wiring = {0 : 0, 1 : 9, 2 : 3,
                     3 : 10, 4 : 18, 5 : 8,
                     6 : 17, 7 : 20, 8 : 23,
@@ -106,6 +124,7 @@ class rotor_2(rotor):
 class rotor_3(rotor):
     def __init__(self):
         super().__init__()
+        self.name   = 'III'
         self.wiring = {0 : 1, 1 : 3, 2 : 5,
                     3 : 7, 4 : 9, 5 : 11,
                     6 : 2, 7 : 15, 8 : 17,
@@ -122,6 +141,7 @@ class rotor_3(rotor):
 class rotor_4(rotor):
     def __init__(self):
         super().__init__()
+        self.name   = 'IV'
         self.wiring = {0 : 4, 1 : 18, 2 : 14,
                     3 : 21, 4 : 15, 5 : 25,
                     6 : 9, 7 : 0, 8 : 24,
@@ -138,6 +158,7 @@ class rotor_4(rotor):
 class rotor_5(rotor):
     def __init__(self):
         super().__init__()
+        self.name   = 'V'
         self.wiring = {0 : 21, 1 : 25, 2 : 1,
                     3 : 17, 4 : 6, 5 : 8,
                     6 : 19, 7 : 24, 8 : 20,
@@ -146,7 +167,7 @@ class rotor_5(rotor):
                     15 : 23, 16 : 0, 17 : 22,
                     18 : 12, 19 : 9, 20 : 16,
                     21 : 14, 22 : 5, 23 : 4,
-                    24 : 2, 25 : 0}
+                    24 : 2, 25 : 10}
         
         self.notches = ['A']
         self.face = 'A'
@@ -154,6 +175,7 @@ class rotor_5(rotor):
 class rotor_6(rotor):
     def __init__(self):
         super().__init__()
+        self.name   = 'VI'
         self.wiring = {0 : 9, 1 : 15, 2 : 6,
                     3 : 21, 4 : 14, 5 : 20,
                     6 : 12, 7 : 5, 8 : 24,
@@ -170,6 +192,7 @@ class rotor_6(rotor):
 class rotor_7(rotor):
     def __init__(self):
         super().__init__()
+        self.name   = 'VII'
         self.wiring = {0 : 13, 1 : 25, 2 : 9,
                     3 : 7, 4 : 6, 5 : 17,
                     6 : 2, 7 : 23, 8 : 12,
@@ -186,6 +209,7 @@ class rotor_7(rotor):
 class rotor_8(rotor):
     def __init__(self):
         super().__init__()
+        self.name   = 'VIII'
         self.wiring = {0 : 5, 1 : 10, 2 : 16,
                     3 : 7, 4 : 19, 5 : 11,
                     6 : 23, 7 : 14, 8 : 2,
