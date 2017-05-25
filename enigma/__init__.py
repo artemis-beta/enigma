@@ -5,6 +5,15 @@ import logging
 
 class Enigma:
     def __init__(self, rotor_list=[], user_reflector=None, debug='ERROR'):
+        '''Enigma Machine Class based on the Enigma Model 3 ciphering machine
+          
+           rotor_list:     [i,k,k]   Any three non-identical numbers 1-8 for rotor choice
+
+           user_reflector:   'B'     Reflector type to be used 'B' or 'C'
+
+           debug:          'DEBUG'   Set debug level, default is 'ERROR'
+      
+        '''
         self.version = 'v0.1.0'
         self.isBeta = True
         self._rotor_types = {1 : rotor.rotor_1(),
@@ -36,7 +45,7 @@ class Enigma:
         if user_reflector:
             self.reflector = self._reflector_types[user_reflector]
         else:
-            self.reflector = reflector.reflector()
+            self.reflector = self._reflector_types['B']
         
         self.plugboard = plugboard.plugboard()
         self.logger = logging.getLogger(__name__)

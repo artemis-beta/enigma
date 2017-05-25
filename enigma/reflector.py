@@ -7,6 +7,7 @@ class reflector:
             if self._reflector_dict[letter]:
                 return self._reflector_dict[letter]
         except:
+            print("ERROR: Could not find '{}' in Reflector Dictionary".format(letter))
             raise SystemExit
 
 class reflector_B(reflector):
