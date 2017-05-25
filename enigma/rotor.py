@@ -12,6 +12,8 @@ class rotor:
 
         self.face = self.alpha[random.randint(0,25)]
 
+        self.name = 'rotor_temp'
+
         self.wiring = {}
 
         for i in range(len(self.alpha)):

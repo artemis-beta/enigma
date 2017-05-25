@@ -27,4 +27,4 @@ while inp not in ['quit', 'q']:
 
     inp = input("INPUT: ")
     if inp not in ['quit', 'q']:
-        print(enigma_m3.type_phrase(inp))
+        print("OUTPUT: {}".format(enigma_m3.type_phrase(inp)))

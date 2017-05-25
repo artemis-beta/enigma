@@ -26,6 +26,12 @@ class Enigma:
             self.rotors['left'] = self._rotor_types[rotor_list[0]]
             self.rotors['middle'] = self._rotor_types[rotor_list[1]]
             self.rotors['right'] = self._rotor_types[rotor_list[2]]
+
+        else:
+            # Set Default
+            self.rotors['left'] = self._rotor_types[5]
+            self.rotors['middle'] = self._rotor_types[3]
+            self.rotors['right'] = self._rotor_types[1]
  
         if user_reflector:
             self.reflector = self._reflector_types[user_reflector]
