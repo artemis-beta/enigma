@@ -11,9 +11,9 @@ import string
 
 class RotorTest(unittest.TestCase):
 
-    @settings(min_examples=10, max_examples=100, timeout=10)
-    @given(letter = strategies.text( alphabet=string.uppercase, min_size=1, max_size=1),
-           key    = strategies.text( alphabet = string.uppercase, min_size=3, max_size=3),
+    @settings(min_satisfying_examples=10, max_examples=100, timeout=10)
+    @given(letter = strategies.text( alphabet=string.ascii_uppercase, min_size=1, max_size=1),
+           key    = strategies.text( alphabet = string.ascii_uppercase, min_size=3, max_size=3),
            reflector = strategies.text(alphabet=['B','C'], min_size=1, max_size=1))
     def test_reflector_conv(self, letter, reflector, key):
         machine = enigma.Enigma(user_reflector=reflector)
@@ -23,9 +23,9 @@ class RotorTest(unittest.TestCase):
         logger.debug("Key '%s' - Running Reflector Setting: %s        %s  ----->  %s  ------> %s", key, reflector, letter, out, back)
         assert back == letter, "Cipher->Decipher Failed to Return Initial Letter"
 
-    @settings(min_examples=10,max_examples=100, timeout=10)
-    @given(letter = strategies.text( alphabet=string.uppercase, min_size=1, max_size=1),
-           key    = strategies.text( alphabet = string.uppercase, min_size=3, max_size=3),
+    @settings(min_satisfying_examples=10,max_examples=100, timeout=10)
+    @given(letter = strategies.text( alphabet=string.ascii_uppercase, min_size=1, max_size=1),
+           key    = strategies.text( alphabet = string.ascii_uppercase, min_size=3, max_size=3),
            rotor_list = strategies.lists(strategies.integers(min_value=1, max_value=8), min_size=3, max_size=3))
     def test_inter_rotor_conv(self, letter, rotor_list, key):
         machine = enigma.Enigma(rotor_list=rotor_list, user_reflector='B')
@@ -35,9 +35,9 @@ class RotorTest(unittest.TestCase):
         logger.debug("Key '%s' - Running InterRotor Setting: %s        %s  ----->  %s  ------> %s", key, rotor_list, letter, out, back)
         assert back == letter, "Cipher->Decipher Failed to Return Initial Letter"
 
-    @settings(min_examples=10,max_examples=100, timeout=10)
-    @given(letter = strategies.text( alphabet=string.uppercase, min_size=1, max_size=1),
-           key    = strategies.text( alphabet = string.uppercase, min_size=3, max_size=3),
+    @settings(min_satisfying_examples=10,max_examples=100, timeout=10)
+    @given(letter = strategies.text( alphabet=string.ascii_uppercase, min_size=1, max_size=1),
+           key    = strategies.text( alphabet = string.ascii_uppercase, min_size=3, max_size=3),
            rotor = strategies.integers(min_value=1, max_value=8),
            position = strategies.sampled_from(['left', 'middle', 'right']))
     def test_rotor_conv(self, letter, rotor, position, key):
