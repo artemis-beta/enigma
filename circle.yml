@@ -1,5 +1,6 @@
 machine:
   python:
     version: 3.6.0
-override:
-  - nose2
+test:
+  override:
+    - nose2
