@@ -9,6 +9,5 @@ setup(name                =  'enigma'                                      ,
       license             =  'MIT'                                         ,
       packages            =  ['enigma']                                    ,
       zip_safe            =  False                                         ,
-      tests_require       =  ['pytest']                                    ,
-      setup_requires      =  ['pytest-runner']                             ,
+      tests_require       =  ['nose2']                                    
      )
