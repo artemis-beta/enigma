@@ -1,5 +1,5 @@
 import unittest
-from hypothesis import given, strategies
+from hypothesis import given, strategies, settings
 from enigma import Enigma
 import sys
 import logging
@@ -8,17 +8,17 @@ logger = logging.getLogger('ENIGMATEST')
 logging.basicConfig()
 logger.setLevel('DEBUG')
 
-alph = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N', 'O','P','Q','R','S','T','U','V','W','X','Y','Z']
+import string
+
+alph = string.uppercase
 class TestEnigma(unittest.TestCase):
 
 
     @given(indices = strategies.lists(strategies.integers(min_value=1, max_value=8), min_size=3, max_size=3),
            rotor_list = strategies.lists(strategies.integers(min_value=1, max_value=8), min_size=3, max_size=3),
            reflector = strategies.sampled_from(['B', 'C']),
-           key = strategies.text( alphabet = ['A','B','C','D','E','F','G',
-                                              'H','I','J','K','L','M','N',
-                                              'O','P','Q','R','S','T','U',
-                                              'V','W','X','Y','Z'], min_size=3, max_size=3))
+           key = strategies.text( alphabet = alph, min_size=3, max_size=3))
+    @settings(max_size=100, min_size=10, timeout=10)
     def testEnigma(self, indices, rotor_list, reflector, key):
         machine = Enigma(rotor_list=rotor_list, user_reflector=reflector,debug='DEBUG')
         machine.set_key(key)
