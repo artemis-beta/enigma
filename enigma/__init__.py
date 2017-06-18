@@ -14,8 +14,8 @@ class Enigma:
            debug:          'DEBUG'   Set debug level, default is 'ERROR'
       
         '''
-        self.version = 'v1.0.2'
-        self.isBeta = True
+        self.version = 'v1.0.3'
+        self.isBeta = False
         self._rotor_types = {1 : rotor.rotor_1(),
                              2 : rotor.rotor_2(),
                              3 : rotor.rotor_3(),
