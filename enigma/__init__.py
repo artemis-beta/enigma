@@ -4,7 +4,7 @@ from . import reflector
 import logging
 
 class Enigma:
-    def __init__(self, rotor_list=[], user_reflector=None, debug='ERROR'):
+    def __init__(self, rotor_list=[], user_reflector=None, debug='ERROR', enigma_type='M3'):
         '''Enigma Machine Class based on the Enigma Model 3 ciphering machine
           
            rotor_list:     [i,k,k]   Any three non-identical numbers 1-8 for rotor choice
@@ -14,8 +14,9 @@ class Enigma:
            debug:          'DEBUG'   Set debug level, default is 'ERROR'
       
         '''
-        self.version = 'v1.0.2'
-        self.isBeta = True
+        self.version = 'v1.1.0'
+        self.isBeta = False
+        self.type   = enigma_type.upper() if enigma_type.upper() in ['M3', 'M4'] else 'M3'
         self._rotor_types = {1 : rotor.rotor_1(),
                              2 : rotor.rotor_2(),
                              3 : rotor.rotor_3(),
@@ -28,13 +29,27 @@ class Enigma:
                                  'C' : reflector.reflector_C()}
 
         self.rotors = { 'right' : rotor.rotor() ,
-                        'middle' : rotor.rotor(),
                         'left' : rotor.rotor()}
-        
-        if len(rotor_list) == 3:
+       
+        if self.type == 'M3':
+            self.rotors['middle'] = rotor.rotor()
+
+        else:
+            self.rotors['middle left'] = rotor.rotor()
+            self.rotors['middle right'] = rotor.rotor()
+
+        if self.type == 'M3':
+            assert len(rotor_list) == 3, "ERROR: Invalid Rotor List Argument for Enigma M3"
             self.rotors['left'] = self._rotor_types[rotor_list[0]]
             self.rotors['middle'] = self._rotor_types[rotor_list[1]]
             self.rotors['right'] = self._rotor_types[rotor_list[2]]
+
+        if self.type == 'M4':
+            assert len(rotor_list) == 4, "ERROR: Invalid Rotor List Argument for Enigma M4"
+            self.rotors['left'] = self._rotor_types[rotor_list[0]]
+            self.rotors['middle left'] = self._rotor_types[rotor_list[1]]
+            self.rotors['middle right'] = self._rotor_types[rotor_list[2]]
+            self.rotors['right'] = self._rotor_types[rotor_list[3]]
 
         else:
             # Set Default
@@ -106,7 +121,7 @@ class Enigma:
         return self.rotors[name2].alpha[n]
 
 
-    def type_letter(self, letter):
+    def _type_letter_M3(self, letter):
         letter = letter.upper()
         self.logger.debug("-----------------------")
         cipher = self.plugboard.plugboard_conversion(letter)
@@ -115,7 +130,6 @@ class Enigma:
         if self.rotors['right'].face in self.rotors['right'].notches:
             self._move_rotor('middle', 1)
         if self.rotors['middle'].face in self.rotors['middle'].notches:
-            self._move_rotor('middle', 1)
             self._move_rotor('left', 1)
         cipher = self._get_rotor_conv('right', cipher)
         cipher = self._get_inter_rotor_conv('right', 'middle', cipher)
@@ -134,6 +148,42 @@ class Enigma:
 
         return cipher_out
 
+
+    def _type_letter_M4(self, letter):
+        letter = letter.upper()
+        self.logger.debug("-----------------------")
+        cipher = self.plugboard.plugboard_conversion(letter)
+        self.logger.debug("Plugboard conversion: %s to %s", letter, cipher)
+        self._move_rotor('right', 1)
+        if self.rotors['right'].face in self.rotors['right'].notches:
+            self._move_rotor('middle right', 1)
+        if self.rotors['middle right'].face in self.rotors['middle right'].notches:
+            self._move_rotor('middle left', 1)
+        if self.rotors['middle left'].face in self.rotors['middle left'].notches:
+            self._move_rotor('left', 1)
+        cipher = self._get_rotor_conv('right', cipher)
+        cipher = self._get_inter_rotor_conv('right', 'middle right', cipher)
+        cipher = self._get_rotor_conv('middle right', cipher)
+        cipher = self._get_inter_rotor_conv('middle right', 'middle left', cipher)
+        cipher = self._get_rotor_conv('middle left', cipher)
+        cipher = self._get_inter_rotor_conv('middle left', 'left', cipher)
+        cipher = self._get_rotor_conv('left', cipher)
+        cipher = self._get_reflector_conv(cipher)
+        cipher = self._get_rotor_conv_inv('left', cipher)
+        cipher = self._get_inter_rotor_conv_inv('left', 'middle left', cipher)
+        cipher = self._get_rotor_conv_inv('middle left', cipher)
+        cipher = self._get_inter_rotor_conv_inv('middle left', 'middle right', cipher)
+        cipher = self._get_rotor_conv_inv('middle right', cipher)
+        cipher = self._get_inter_rotor_conv_inv('middle right', 'right', cipher)
+        cipher = self._get_rotor_conv_inv('right', cipher)
+        cipher_out = self.plugboard.plugboard_conversion_inv(cipher)
+        self.logger.debug("Plugboard conversion: %s to %s", cipher, cipher_out)
+        self.logger.debug("-----------------------")
+
+        return cipher_out
+
+    def type_letter(self, letter):
+        return self._type_letter_M3(letter) if self.type == 'M3' else self._type_letter_M4(letter)
 
     def _get_reflector_conv(self, phrase):
         out = self.reflector.reflector_conversion(phrase)
@@ -155,6 +205,12 @@ class Enigma:
 
     def set_key(self, key):
         key = key.upper()
-        self._set_rotor('left', key[0])
-        self._set_rotor('middle', key[1])
-        self._set_rotor('right', key[2])
+        if self.type == 'M3':
+            self._set_rotor('left', key[0])
+            self._set_rotor('middle', key[1])
+            self._set_rotor('right', key[2])
+        else:
+            self._set_rotor('left', key[0])
+            self._set_rotor('middle left', key[0])
+            self._set_rotor('middle right', key[1])
+            self._set_rotor('right', key[3])
