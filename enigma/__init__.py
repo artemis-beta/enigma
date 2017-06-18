@@ -11,6 +11,8 @@ class Enigma:
 
            user_reflector:   'B'     Reflector type to be used 'B' or 'C'
 
+           enigma_type: 'M4'         Enigma type 'M3' or 'M4' 
+        
            debug:          'DEBUG'   Set debug level, default is 'ERROR'
       
         '''
