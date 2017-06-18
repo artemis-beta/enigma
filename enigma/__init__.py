@@ -14,9 +14,11 @@ class Enigma:
            debug:          'DEBUG'   Set debug level, default is 'ERROR'
       
         '''
+
         self.version = 'v1.1.0'
         self.isBeta = False
         self.type   = enigma_type.upper() if enigma_type.upper() in ['M3', 'M4'] else 'default'
+
         self._rotor_types = {1 : rotor.rotor_1(),
                              2 : rotor.rotor_2(),
                              3 : rotor.rotor_3(),
