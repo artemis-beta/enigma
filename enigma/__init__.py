@@ -115,7 +115,6 @@ class Enigma:
         if self.rotors['right'].face in self.rotors['right'].notches:
             self._move_rotor('middle', 1)
         if self.rotors['middle'].face in self.rotors['middle'].notches:
-            self._move_rotor('middle', 1)
             self._move_rotor('left', 1)
         cipher = self._get_rotor_conv('right', cipher)
         cipher = self._get_inter_rotor_conv('right', 'middle', cipher)
