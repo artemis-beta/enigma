@@ -53,10 +53,11 @@ class Enigma:
 
         else:
             # Set Default
+            self.type = 'M3'
             self.rotors['left'] = self._rotor_types[5]
             self.rotors['middle'] = self._rotor_types[3]
             self.rotors['right'] = self._rotor_types[1]
- 
+
         if user_reflector:
             self.reflector = self._reflector_types[user_reflector]
         else:
