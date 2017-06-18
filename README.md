@@ -6,7 +6,7 @@ Included are two scripts for a quick demo of each: `enigmaM3_test.py` and `enigm
 ## Custom Machine
 To create a new instance of Enigma the default can be used which is an M3 instance with pre-selected rotor arrangement and reflector choice, or all settings can be chosen by the user. Note as with the machine itself, one of the 8 numbered rotor types may only be selected once:
 ```
-my_rotor_list = [1,4,6,3]     # 3 of 1,2,3,4,5,6,7,8
+my_rotor_list = [1,4,6,3]     # 3 or 4 of 1,2,3,4,5,6,7,8
 my_reflector  = 'B'           # 'B' or 'C'
 machine_type  = 'M4'          # 'M3' or 'M4' (should match rotor list)
 debug_level   = 'ERROR'       # 'ERROR', 'INFO', 'DEBUG' (see python 'logging' module documentation)
