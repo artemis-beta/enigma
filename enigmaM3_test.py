@@ -9,7 +9,7 @@ if enigma_m3.isBeta:
 intro='''
 ===========================================
 
-  WELCOME TO THE PYTHON ENIGMA 3 ENCODER
+  WELCOME TO THE PYTHON ENIGMA M3 ENCODER
                   {}
           
            Kristian Zarebski
