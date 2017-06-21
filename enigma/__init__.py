@@ -209,6 +209,9 @@ class Enigma:
         return out_str
 
     def set_key(self, key):
+        import unicodedata
+        assert len(key) == 3 or len(key) == 4, "ERROR: Invalid key length!"
+        assert key.isalpha(), "ERROR: Key can only contain alphabetic characters!"
         key = key.upper()
         if self.type == 'M3':
             self._set_rotor('left', key[0])
