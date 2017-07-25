@@ -1,5 +1,5 @@
 import unittest
-from hypothesis import given, strategies, settings
+from hypothesis import given, strategies, settings, example
 from enigma import Enigma
 import sys
 import logging
@@ -19,6 +19,7 @@ class TestEnigma(unittest.TestCase):
            reflector = strategies.sampled_from(['B', 'C']),
            key = strategies.text( alphabet = alph, min_size=3, max_size=3))
     @settings(max_examples=100, min_satisfying_examples=10, timeout=10)
+    @example(indices=[1, 2, 3], rotor_list=[1, 2, 3], reflector='B', key='ABC')
     def testEnigma(self, indices, rotor_list, reflector, key):
         machine = Enigma(rotor_list=rotor_list, user_reflector=reflector,debug='DEBUG')
         machine.set_key(key)

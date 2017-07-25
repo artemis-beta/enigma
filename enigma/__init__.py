@@ -34,17 +34,7 @@ class Enigma:
         self._reflector_types = {'B' : reflector.reflector_B(),
                                  'C' : reflector.reflector_C()}
 
-        self.rotors = OrderedDict(
-            {'right' : rotor.rotor(),
-             'left'  : rotor.rotor()}
-        )
-       
-        if self.type == 'M3':
-            self.rotors['middle'] = rotor.rotor()
-
-        else:
-            self.rotors['middle left'] = rotor.rotor()
-            self.rotors['middle right'] = rotor.rotor()
+        self.rotors = OrderedDict()
 
         if self.type == 'M3':
             assert len(rotor_list) == 3, "ERROR: Invalid Rotor List Argument for Enigma M3"
@@ -65,6 +55,9 @@ class Enigma:
             self.rotors['left'] = self._rotor_types[5]
             self.rotors['middle'] = self._rotor_types[3]
             self.rotors['right'] = self._rotor_types[1]
+
+        # After setting rotors, get a tuple of the dict keys for index tricks.
+        self._rotor_dict_keys = tuple(self.rotors.keys())
 
         if user_reflector:
             self.reflector = self._reflector_types[user_reflector]
@@ -135,22 +128,57 @@ class Enigma:
         self.logger.debug("-----------------------")
         cipher = self.plugboard.plugboard_conversion(letter)
         self.logger.debug("Plugboard conversion: %s to %s", letter, cipher)
-        self._move_rotor('right', 1)
-        if self.rotors['right'].face in self.rotors['right'].notches:
-            self._move_rotor('middle', 1)
-        if self.rotors['middle'].face in self.rotors['middle'].notches:
-            self._move_rotor('left', 1)
-        cipher = self._get_rotor_conv('right', cipher)
-        cipher = self._get_inter_rotor_conv('right', 'middle', cipher)
-        cipher = self._get_rotor_conv('middle', cipher)
-        cipher = self._get_inter_rotor_conv('middle', 'left', cipher)
-        cipher = self._get_rotor_conv('left', cipher)
+        # Move the rightmost rotor
+        self._move_rotor(self._rotor_dict_keys[-1], 1)
+
+        # TODO not sure what to call this action...
+        for i, j in zip(
+                reversed(self._rotor_dict_keys[1:]),
+                reversed(self._rotor_dict_keys[:-1]),
+        ):
+            if self.rotors[i].face in self.rotors[i].notches:
+                self._move_rotor(j, 1)
+
+        # Start making the cipher
+        for rotor_key in reversed(self._rotor_dict_keys):
+            # Get the rotor conversion for given key
+            cipher = self._get_rotor_conv(rotor_key, cipher)
+            # Get the inter rotor conversion for the key and the key-1
+            adjacent_rotor_key_index = self._rotor_dict_keys.index(rotor_key)-1
+            # At this point we should be ready for reflection
+            if adjacent_rotor_key_index < 0:
+                break
+            adjacent_rotor_key = self._rotor_dict_keys[adjacent_rotor_key_index]
+            cipher = self._get_inter_rotor_conv(
+                rotor_key,
+                adjacent_rotor_key,
+                cipher
+            )
+        else:
+            assert False, "Shouldn't get here!"
+
         cipher = self._get_reflector_conv(cipher)
-        cipher = self._get_rotor_conv_inv('left', cipher)
-        cipher = self._get_inter_rotor_conv_inv('left', 'middle', cipher)
-        cipher = self._get_rotor_conv_inv('middle', cipher)
-        cipher = self._get_inter_rotor_conv_inv('middle', 'right', cipher)
-        cipher = self._get_rotor_conv_inv('right', cipher)
+
+        # Start making the cipher
+        for rotor_key in self._rotor_dict_keys:
+            # Get the rotor conversion for given key
+            cipher = self._get_rotor_conv_inv(rotor_key, cipher)
+            try:
+                # Get the inter rotor conv_inversion for the key and the key-1
+                adjacent_rotor_key_index = self._rotor_dict_keys.index(rotor_key)+1
+                adjacent_rotor_key = self._rotor_dict_keys[adjacent_rotor_key_index]
+                cipher = self._get_inter_rotor_conv_inv(
+                    rotor_key,
+                    adjacent_rotor_key,
+                    cipher
+                )
+            except IndexError:
+                # At this point we should be ready for reflection
+                break
+        else:
+            assert False, "Shouldn't get here!"
+
+
         cipher_out = self.plugboard.plugboard_conversion_inv(cipher)
         self.logger.debug("Plugboard conversion: %s to %s", cipher, cipher_out)
         self.logger.debug("-----------------------")
