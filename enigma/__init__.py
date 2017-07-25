@@ -51,6 +51,9 @@ class Enigma:
             self.rotors['middle right'] = self._rotor_types[rotor_list[2]]
             self.rotors['right'] = self._rotor_types[rotor_list[3]]
 
+        elif self.type == 'CUSTOM':
+            for i, rotor_index in enumerate(rotor_list):
+                self.rotors[str(i)] = self._rotor_types[rotor_index]
         else:
             # TODO put proper exception here
             assert False, "Please specify M3 or M4"
@@ -200,16 +203,17 @@ class Enigma:
         # out_str = ' '.join(out_str[i:i+3] for i in range(0, len(out_str),3)) + fill
         return out_str
 
+    def _assert_key_length(self, key):
+        if self.type == 'M3':
+            assert len(key) == 3, "ERROR: Invalid key length!"
+        elif self.type == 'M4':
+            assert len(key) == 4, "ERROR: Invalid key length!"
+        else:
+            return
+
     def set_key(self, key):
-        assert len(key) == 3 or len(key) == 4, "ERROR: Invalid key length!"
+        self._assert_key_length(key)
         assert key.isalpha(), "ERROR: Key can only contain alphabetic characters!"
         key = key.upper()
-        if self.type == 'M3':
-            self._set_rotor('left', key[0])
-            self._set_rotor('middle', key[1])
-            self._set_rotor('right', key[2])
-        else:
-            self._set_rotor('left', key[0])
-            self._set_rotor('middle left', key[0])
-            self._set_rotor('middle right', key[1])
-            self._set_rotor('right', key[3])
+        for i, k in enumerate(self._rotor_dict_keys):
+            self._set_rotor(k, key[i])
