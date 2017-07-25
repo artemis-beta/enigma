@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from . import rotor
 from . import plugboard
 from . import reflector
@@ -32,8 +34,10 @@ class Enigma:
         self._reflector_types = {'B' : reflector.reflector_B(),
                                  'C' : reflector.reflector_C()}
 
-        self.rotors = { 'right' : rotor.rotor() ,
-                        'left' : rotor.rotor()}
+        self.rotors = OrderedDict(
+            {'right' : rotor.rotor(),
+             'left'  : rotor.rotor()}
+        )
        
         if self.type == 'M3':
             self.rotors['middle'] = rotor.rotor()
