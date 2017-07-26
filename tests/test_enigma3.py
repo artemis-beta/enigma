@@ -57,7 +57,7 @@ class TestEnigma(unittest.TestCase):
         machine = make_machine()
         orig = machine.type_phrase(result)
         logger.debug(
-            "Key '%s' - Running Enigma: Phrase Conversion     %s  ----->  %s  ------> %s", key, phrase, result, orig)
+            "Key '%s'\n -> Running Enigma: Phrase Conversion     %s  ----->  %s  ------> %s", key, phrase, result, orig)
         logger.debug("Machine type: %s" % machine.type)
         assert phrase == orig, "ERROR: Reverse Encryption Does Not Match Original Phrase"
 
