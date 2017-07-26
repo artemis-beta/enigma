@@ -37,6 +37,8 @@ class TestEnigma(unittest.TestCase):
                 enigma_type = 'M3'
             elif len(rotor_list) == 4:
                 enigma_type = 'M4'
+            else:
+                enimga_type = 'MN'
 
             machine = Enigma(
                 rotor_list=rotor_list,
