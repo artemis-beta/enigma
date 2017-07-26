@@ -20,12 +20,12 @@ class TestEnigma(unittest.TestCase):
         rotor_list=strategies.lists(
             strategies.integers(min_value=1, max_value=8),
             min_size=3,
-            max_size=4),
+            max_size=12),
         reflector=strategies.sampled_from(['B', 'C']),
         key=strategies.text(
             alphabet=string.ascii_uppercase,
             min_size=3,
-            max_size=4)
+            max_size=12)
     )
     @settings(max_examples=100, min_satisfying_examples=10, timeout=10)
     @example(phrase="FORK", rotor_list=[1, 2, 3], reflector='B', key='ABC')
@@ -39,6 +39,7 @@ class TestEnigma(unittest.TestCase):
                 enigma_type = 'M4'
             else:
                 enimga_type = 'MN'
+
 
             machine = Enigma(
                 rotor_list=rotor_list,
