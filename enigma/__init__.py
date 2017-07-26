@@ -50,7 +50,9 @@ class Enigma:
             self.rotors['middle left'] = self._rotor_types[rotor_list[1]]
             self.rotors['middle right'] = self._rotor_types[rotor_list[2]]
             self.rotors['right'] = self._rotor_types[rotor_list[3]]
-
+        elif self.type == 'MN':
+            for i, rotor_index in enumerate(rotor_list):
+                self.rotors[str(i)] = self._rotor_types[rotor_index]
         else:
             # TODO put proper exception here
             assert False, "Please specify M3 or M4"
