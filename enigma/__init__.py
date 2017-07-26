@@ -201,15 +201,11 @@ class Enigma:
         return out_str
 
     def set_key(self, key):
-        assert len(key) == 3 or len(key) == 4, "ERROR: Invalid key length!"
-        assert key.isalpha(), "ERROR: Key can only contain alphabetic characters!"
+        if len(self.rotors) != len(key):
+            raise ValueError("Key length must match no. of rotors.")
+        if not key.isalpha():
+            raise ValueError("Key can only contain alphabetic characters!")
+
         key = key.upper()
-        if self.type == 'M3':
-            self._set_rotor('left', key[0])
-            self._set_rotor('middle', key[1])
-            self._set_rotor('right', key[2])
-        else:
-            self._set_rotor('left', key[0])
-            self._set_rotor('middle left', key[0])
-            self._set_rotor('middle right', key[1])
-            self._set_rotor('right', key[3])
+        for rotor_dict_key, letter in zip(self._rotor_dict_keys, key):
+            self._set_rotor(rotor_dict_key, letter)

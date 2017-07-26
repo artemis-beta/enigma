@@ -59,6 +59,29 @@ class TestEnigma(unittest.TestCase):
         logger.debug("Machine type: %s" % machine.type)
         assert phrase == orig, "ERROR: Reverse Encryption Does Not Match Original Phrase"
 
+    @given(
+        key=strategies.text(alphabet=string.ascii_uppercase, max_size=10),
+        rotor_list=strategies.lists(
+            strategies.integers(min_value=1, max_value=8),
+            min_size=3,
+            max_size=4),
+    )
+    def testEngimaKeyCheck(self, key, rotor_list):
+        assume(len(key) != len(rotor_list))
+
+        if len(rotor_list) == 3:
+            enigma_type = 'M3'
+        elif len(rotor_list) == 4:
+            enigma_type = 'M4'
+
+        machine = Enigma(
+            rotor_list=rotor_list,
+            enigma_type=enigma_type,
+            debug='DEBUG'
+        )
+        with self.assertRaises(ValueError):
+            machine.set_key(key)
+
 
 if __name__ == "__main__":
     unittest.main()
