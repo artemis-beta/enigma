@@ -19,7 +19,7 @@ class Enigma:
       
         '''
 
-        self.version = 'v1.1.0'
+        self.version = 'v1.1.2'
         self.isBeta = False
         self.type = enigma_type.upper()
 
@@ -51,7 +51,7 @@ class Enigma:
             self.rotors['middle right'] = self._rotor_types[rotor_list[2]]
             self.rotors['right'] = self._rotor_types[rotor_list[3]]
 
-        elif self.type == 'CUSTOM':
+        elif self.type == 'MN':
             for i, rotor_index in enumerate(rotor_list):
                 self.rotors[str(i)] = self._rotor_types[rotor_index]
         else:
@@ -212,8 +212,11 @@ class Enigma:
             return
 
     def set_key(self, key):
-        self._assert_key_length(key)
-        assert key.isalpha(), "ERROR: Key can only contain alphabetic characters!"
+        if len(self.rotors) != len(key):
+            raise ValueError("Key length must match no. of rotors.")
+        if not key.isalpha():
+            raise ValueError("Key can only contain alphabetic characters!")
+
         key = key.upper()
-        for i, k in enumerate(self._rotor_dict_keys):
-            self._set_rotor(k, key[i])
+        for rotor_dict_key, letter in zip(self._rotor_dict_keys, key):
+            self._set_rotor(rotor_dict_key, letter)

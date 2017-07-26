@@ -19,3 +19,20 @@ enigma = enigma.Enigma( rotor_list     = my_rotor_list ,
 enigma.setkey('NERO')
 enigma.type_phrase('NOBODYEXPECTSTHESPANISHINQUISITION')
 ```
+
+## Enigma MN
+Although the real Enigma only had M3 and M4 variants, through the power of technology we bring you the Enigma MN! This setting can accept any number of rotors, although key length and rotor length must still match. E.g.
+```
+my_rotor_list = [1,4,6,3,1,4,6,3] # Any number of 1,2,3,4,5,6,7,8
+my_reflector  = 'B'               # 'B' or 'C'
+machine_type  = 'MN'              # 'MN' for demo purposes
+debug_level   = 'ERROR'           # 'ERROR', 'INFO', 'DEBUG' (see python 'logging' module documentation)
+
+enigma = enigma.Enigma( rotor_list     = my_rotor_list ,
+                        user_reflector = my_reflector  ,
+                        enigma_type    = machine_type  ,
+                        debug          = debug_level)
+
+enigma.setkey('PROMISES')
+enigma.type_phrase('NOBODYEXPECTSTHESPANISHINQUISITION')
+```
