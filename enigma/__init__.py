@@ -19,7 +19,7 @@ class Enigma:
       
         '''
 
-        self.version = 'v1.1.3'
+        self.version = 'v1.1.4'
         self.isBeta = False
         self.type = enigma_type.upper()
 
@@ -192,12 +192,12 @@ class Enigma:
         out_str = ''
         for letter in list(phrase):
             out_str += self.type_letter(letter)
-            remainder = len(out_str) % 3
-        #     fill = ''
-        #     import string, random
-        #     for i in range(remainder):
-        #       fill += random.choice(string.ascii_letters.upper())
-        # out_str = ' '.join(out_str[i:i+3] for i in range(0, len(out_str),3)) + fill
+            remainder = 5 - len(out_str) % 5
+        fill = ''
+        import string, random
+        for i in range(remainder):
+          fill += random.choice(string.ascii_letters.upper())
+        out_str = ' '.join(out_str[i:i+5] for i in range(0, len(out_str),5)) + fill
         return out_str
 
     def set_key(self, key):
