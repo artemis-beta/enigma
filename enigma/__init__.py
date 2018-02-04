@@ -189,15 +189,15 @@ class Enigma:
 
     def type_phrase(self, phrase):
         phrase = phrase.replace(' ','')
-        out_str = ''
-        for letter in list(phrase):
-            out_str += self.type_letter(letter)
-            remainder = 5 - len(out_str) % 5
-        fill = ''
+        remainder = 5 - len(phrase) % 5 if len(phrase) % 5 != 0 else 0
         import string, random
         for i in range(remainder):
-          fill += random.choice(string.ascii_letters.upper())
-        out_str = ' '.join(out_str[i:i+5] for i in range(0, len(out_str),5)) + fill
+          phrase += random.choice(string.ascii_letters.upper())
+        out_str = ''
+        print(phrase)
+        for letter in list(phrase):
+            out_str += self.type_letter(letter)
+        out_str = ' '.join(out_str[i:i+5] for i in range(0, len(out_str),5))
         return out_str
 
     def set_key(self, key):
