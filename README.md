@@ -16,6 +16,6 @@ enigma = enigma.Enigma( rotor_list     = my_rotor_list ,
                         enigma_type    = machine_type  ,
                         debug          = debug_level)
 
-enigma.setkey('NERO')
+enigma.set_key('NERO')
 enigma.type_phrase('NOBODYEXPECTSTHESPANISHINQUISITION')
 ```
