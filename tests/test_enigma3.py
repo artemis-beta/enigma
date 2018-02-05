@@ -50,14 +50,14 @@ class TestEnigma(unittest.TestCase):
         machine = make_machine()
         logger.debug("Encrypting %s", phrase)
         result = machine.type_phrase(phrase)
-
         logger.debug("Finding Original")
         machine = make_machine()
-        orig = machine.type_phrase(result)
+        _out = machine.type_phrase(result).replace(' ', '') # Undo 5 letter grouping
+        orig = _out[:len(phrase)]                           # Remove extra added chars in groupings
         logger.debug(
             "Key '%s'\n -> Running Enigma: Phrase Conversion     %s  ----->  %s  ------> %s", key, phrase, result, orig)
         logger.debug("Machine type: %s" % machine.type)
-        assert phrase == orig, "ERROR: Reverse Encryption Does Not Match Original Phrase"
+        assert phrase == orig, "ERROR: Reverse Encryption '{}' Does Not Match Original Phrase '{}'".format(orig, phrase)
 
     @given(
         key=strategies.text(alphabet=string.ascii_uppercase, max_size=10),
