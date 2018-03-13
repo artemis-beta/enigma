@@ -24,6 +24,10 @@ class rotor:
             allocated.append(n)
             self.wiring[i] = n
 
+    def set_notch(self, letter):
+        assert letter.upper() in self.alpha, "Invalid Rotor Symbol"
+        self.notches = [letter.upper()]
+
     def rotate_rotor(self, other=None):
         pos = self.alpha.index(self.face)
         if pos == 25:
@@ -35,10 +39,10 @@ class rotor:
 
         self.face = self.alpha[pos]
 
-    def rotate_inner_ring(self):
+    def rotate_inner_ring(self):  #RINGSTELLUNG
         x = self.wiring[0]
         for wire in self.wiring:
-            if wire == 26:
+            if wire == 25:
                 self.wiring[wire] = x
             else:
                 y = self.wiring[wire+1]

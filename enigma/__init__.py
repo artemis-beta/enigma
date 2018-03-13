@@ -19,7 +19,7 @@ class Enigma:
       
         '''
 
-        self.version = 'v1.1.4'
+        self.version = 'v1.1.5'
         self.isBeta = False
         self.type = enigma_type.upper()
 
@@ -36,9 +36,11 @@ class Enigma:
 
         self.rotors = OrderedDict()
 
+
         if self.type == 'M3':
             if rotor_list is None:
                 rotor_list = [5, 3, 1]
+            assert all(i < 9 and i > 0 for i in rotor_list), "ERROR: Invalid Rotor Type"
             assert len(rotor_list) == 3, "ERROR: Invalid Rotor List Argument for Enigma M3"
             self.rotors['left'] = self._rotor_types[rotor_list[0]]
             self.rotors['middle'] = self._rotor_types[rotor_list[1]]
@@ -46,6 +48,7 @@ class Enigma:
 
         elif self.type == 'M4':
             assert len(rotor_list) == 4, "ERROR: Invalid Rotor List Argument for Enigma M4"
+            assert all(i < 9 and i > 0 for i in rotor_list), "ERROR: Invalid Rotor Type"
             self.rotors['left'] = self._rotor_types[rotor_list[0]]
             self.rotors['middle left'] = self._rotor_types[rotor_list[1]]
             self.rotors['middle right'] = self._rotor_types[rotor_list[2]]
@@ -73,9 +76,10 @@ class Enigma:
             self.logger.debug("Rotating rotor %s by %s", name, amount)
             self.rotors[name].rotate_rotor()
 
-    def rewire_rotor(self, name, amount):
+    def ringstellung(self, name, amount):
+        '''Rotate Inner Wiring of Rotor by Amount'''
+        self.logger.debug("Rotating rotor %s wires by %s", name, amount)
         for j in range(amount):
-            self.logger.debug("Rotating rotor %s wires by %s", name, amount)
             self.rotors[name].rotate_inner_ring()
     
     def _set_rotor(self, name, letter):
