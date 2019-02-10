@@ -27,7 +27,7 @@ class TestEnigma(unittest.TestCase):
             min_size=3,
             max_size=4)
     )
-    @settings(max_examples=100, min_satisfying_examples=10)
+    @settings(max_examples=100)
     @example(phrase="FORK", rotor_list=[1, 2, 3], reflector='B', key='ABC')
     def testEnigma(self, phrase, rotor_list, reflector, key):
         assume(len(key) == len(rotor_list))
@@ -66,19 +66,12 @@ class TestEnigma(unittest.TestCase):
             min_size=3,
             max_size=4),
     )
-    def testEngimaKeyCheck(self, key, rotor_list):
+    def testEnigmaKeyCheck(self, key, rotor_list):
         assume(len(key) != len(rotor_list))
-
-        if len(rotor_list) == 3:
-            enigma_type = 'M3'
-        elif len(rotor_list) == 4:
-            enigma_type = 'M4'
-
-        machine = Enigma(
-            rotor_list=rotor_list,
-            enigma_type=enigma_type,
-            debug='DEBUG'
-        )
+        enigma_type = 'M3' if len(rotor_list) == 3 else 'M4'
+        machine = Enigma(rotor_list=rotor_list,
+                         enigma_type=enigma_type,
+                         debug='DEBUG')
         with self.assertRaises(ValueError):
             machine.set_key(key)
 
