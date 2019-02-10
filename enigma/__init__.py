@@ -35,28 +35,38 @@ class Enigma:
                                  'C' : reflector.reflector_C()}
 
         self.rotors = OrderedDict()
+        
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(debug)
+        logging.basicConfig()
 
 
         if self.type == 'M3':
             if rotor_list is None:
                 rotor_list = [5, 3, 1]
-            assert all(i < 9 and i > 0 for i in rotor_list), "ERROR: Invalid Rotor Type"
-            assert len(rotor_list) == 3, "ERROR: Invalid Rotor List Argument for Enigma M3"
+            try:
+                assert len(rotor_list) == 3
+            except:
+                self.logger.error("Invalid Rotor List Argument for Enigma M3")
+                raise IndexError
             self.rotors['left'] = self._rotor_types[rotor_list[0]]
             self.rotors['middle'] = self._rotor_types[rotor_list[1]]
             self.rotors['right'] = self._rotor_types[rotor_list[2]]
 
         elif self.type == 'M4':
-            assert len(rotor_list) == 4, "ERROR: Invalid Rotor List Argument for Enigma M4"
-            assert all(i < 9 and i > 0 for i in rotor_list), "ERROR: Invalid Rotor Type"
+            try:
+                assert len(rotor_list) == 4
+            except:
+                self.logger.error("Invalid Rotor List Argument for Enigma M4")
+                raise IndexError
             self.rotors['left'] = self._rotor_types[rotor_list[0]]
             self.rotors['middle left'] = self._rotor_types[rotor_list[1]]
             self.rotors['middle right'] = self._rotor_types[rotor_list[2]]
             self.rotors['right'] = self._rotor_types[rotor_list[3]]
 
         else:
-            # TODO put proper exception here
-            assert False, "Please specify M3 or M4"
+            self.logger.error("Unrecognised Enigma type '{}'".format(self.type))
+            raise TypeError
 
         # After setting rotors, get a tuple of the dict keys for index tricks.
         self._rotor_dict_keys = tuple(self.rotors.keys())
@@ -67,18 +77,31 @@ class Enigma:
             self.reflector = self._reflector_types['B']
         
         self.plugboard = plugboard.plugboard()
-        self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(debug)
-        logging.basicConfig()
 
     def _move_rotor(self, name, amount):
+        '''Perform a rotor rotation of a fixed amount
+        
+        Arguments
+        ---------
+
+        name   (string)     Name of rotor
+
+        amount (int)        Amount of intervals to rotate by
+        '''
         for j in range(amount):
             self.logger.debug("Rotating rotor %s by %s", name, amount)
             self.rotors[name].rotate_rotor()
 
     def ringstellung(self, name, amount):
-        '''Rotate Inner Wiring of Rotor by Amount'''
-        self.logger.debug("Rotating rotor %s wires by %s", name, amount)
+        '''Rotate internal rotor wiring by a fixed amount
+        
+        Arguments
+        ---------
+
+        name   (string)     Name of rotor
+
+        amount (int)        Amount of intervals to rotate by
+        '''
         for j in range(amount):
             self.rotors[name].rotate_inner_ring()
     
