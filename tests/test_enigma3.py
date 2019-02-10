@@ -27,7 +27,7 @@ class TestEnigma(unittest.TestCase):
             min_size=3,
             max_size=4)
     )
-    @settings(max_examples=100, min_satisfying_examples=10, timeout=10)
+    @settings(max_examples=100, min_satisfying_examples=10)
     @example(phrase="FORK", rotor_list=[1, 2, 3], reflector='B', key='ABC')
     def testEnigma(self, phrase, rotor_list, reflector, key):
         assume(len(key) == len(rotor_list))

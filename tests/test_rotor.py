@@ -11,7 +11,7 @@ import string
 
 class RotorTest(unittest.TestCase):
 
-    @settings(min_satisfying_examples=10, max_examples=100, timeout=10)
+    @settings(min_satisfying_examples=10, max_examples=100)
     @given(letter = strategies.text( alphabet=string.ascii_uppercase, min_size=1, max_size=1),
            key    = strategies.text( alphabet = string.ascii_uppercase, min_size=3, max_size=3),
            reflector = strategies.text(alphabet=['B','C'], min_size=1, max_size=1))
@@ -23,7 +23,7 @@ class RotorTest(unittest.TestCase):
         logger.debug("Key '%s' - Running Reflector Setting: %s        %s  ----->  %s  ------> %s", key, reflector, letter, out, back)
         assert back == letter, "Cipher->Decipher Failed to Return Initial Letter"
 
-    @settings(min_satisfying_examples=10,max_examples=100, timeout=10)
+    @settings(min_satisfying_examples=10,max_examples=100)
     @given(letter = strategies.text( alphabet=string.ascii_uppercase, min_size=1, max_size=1),
            key    = strategies.text( alphabet = string.ascii_uppercase, min_size=3, max_size=3),
            rotor_list = strategies.lists(strategies.integers(min_value=1, max_value=8), min_size=3, max_size=3))
@@ -35,7 +35,7 @@ class RotorTest(unittest.TestCase):
         logger.debug("Key '%s' - Running InterRotor Setting: %s        %s  ----->  %s  ------> %s", key, rotor_list, letter, out, back)
         assert back == letter, "Cipher->Decipher Failed to Return Initial Letter"
 
-    @settings(min_satisfying_examples=10,max_examples=100, timeout=10)
+    @settings(min_satisfying_examples=10,max_examples=100)
     @given(letter = strategies.text( alphabet=string.ascii_uppercase, min_size=1, max_size=1),
            key    = strategies.text( alphabet = string.ascii_uppercase, min_size=3, max_size=3),
            rotor = strategies.integers(min_value=1, max_value=8),
