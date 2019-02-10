@@ -103,7 +103,10 @@ class Enigma:
         amount (int)        Amount of intervals to rotate by
         '''
         for j in range(amount):
+            letter="A"
+            self.logger.debug("Ringstellung: Conversion for rotor %s was %s to %s", name, letter, self.rotors[name].get_rotor_conversion(letter)) 
             self.rotors[name].rotate_inner_ring()
+            self.logger.debug("Ringstellung: Conversion for rotor %s now %s to %s", name, letter, self.rotors[name].get_rotor_conversion(letter)) 
     
     def _set_rotor(self, name, letter):
         self.logger.debug("Setting rotor %s to %s", name, letter)

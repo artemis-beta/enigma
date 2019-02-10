@@ -76,6 +76,25 @@ class TestEnigma(unittest.TestCase):
         with self.assertRaises(ValueError):
             machine.set_key(key)
 
+    def testEnigmaRingstellungCheck(self):
+        import copy
+        machine = Enigma(rotor_list=[1,2,3,4],
+                         enigma_type='M4',
+                         debug='DEBUG')
+        machine2 = Enigma(rotor_list=[1,2,3,4],
+                         enigma_type='M4',
+                         debug='DEBUG')
+        machine.set_key('TEST')
+        machine2.set_key('TEST')
+        _msg = 'This is a test'
+        _msg = _msg.upper().replace(' ', '')
+        for i, name in zip([1,2,3,4], ['left', 'middle left', 'middle right', 'right']):
+                machine.ringstellung(name, i)
+                machine2.ringstellung(name, i)
+        _out = machine.type_phrase(_msg)
+        _out2 = machine2.type_phrase(_out)
+        self.assertEqual(_out.replace(' ','')[:-4], 'AIJYSDOZODD') and assertIs(_out2[:-4], _msg)
+
 
 if __name__ == "__main__":
     unittest.main()
