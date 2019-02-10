@@ -19,7 +19,7 @@ class Enigma:
       
         '''
 
-        self.version = 'v1.1.5'
+        self.version = 'v1.2.0'
         self.isBeta = False
         self.type = enigma_type.upper()
 
