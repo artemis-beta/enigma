@@ -25,3 +25,10 @@ enigma.ringstellung('middle', 2)  # Perform an internal wire rotation on the mid
 enigma.set_key('NERO')
 enigma.type_phrase('NOBODYEXPECTSTHESPANISHINQUISITION')
 ```
+
+## Testing
+| Branch  | Tests |
+|---|---|
+| Master | [![CircleCI](https://circleci.com/gh/artemis-beta/enigma/tree/master.svg?style=svg)](https://circleci.com/gh/artemis-beta/enigma/tree/master)|
+| enigma-Mn | [![CircleCI](https://circleci.com/gh/artemis-beta/enigma/tree/enigma-Mn.svg?style=svg)](https://circleci.com/gh/artemis-beta/enigma/tree/enigma-Mn) |
+| enigma-dev | [![CircleCI](https://circleci.com/gh/artemis-beta/enigma/tree/enigma-dev.svg?style=svg)](https://circleci.com/gh/artemis-beta/enigma/tree/enigma-dev) |
