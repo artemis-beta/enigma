@@ -3,6 +3,10 @@ This is a small application written in python which simulates both the M3 and M4
 
 Included are two scripts for a quick demo of each: `enigmaM3_test.py` and `enigmaM4_test.py` which have preset keys and rotor selection.
 
+## App
+
+A small python script `enigma_app.py` exists within the package as a quickstart demo of the module.
+
 ## Custom Machine
 To create a new instance of Enigma the default can be used which is an M3 instance with pre-selected rotor arrangement and reflector choice, or all settings can be chosen by the user. Note as with the machine itself, one of the 8 numbered rotor types may only be selected once:
 ```
