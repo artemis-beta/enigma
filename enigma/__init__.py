@@ -239,3 +239,35 @@ class Enigma:
         key = key.upper()
         for rotor_dict_key, letter in zip(self._rotor_dict_keys, key):
             self._set_rotor(rotor_dict_key, letter)
+
+    def rewire_plugboard(self, letter_1, letter_2):
+        '''
+        Rewire the plugboard connecting two letters both forward and backward.
+        e.g. A->K and K->A. Automatically updates to avoid duplicates.
+
+        Arguments
+        ---------
+
+        letter_1    (char)      First letter to connect with wire.
+        letter_2    (char)      Second letter to connect with wire.
+
+        '''
+        try:
+            assert isinstance(letter_1, str) and isinstance(letter_2, str)
+        except AssertionError as e:
+            self.logger.error("Invalid Characters for Plugboard Rewiring '%s' and '%s'", letter_1, letter_2)
+            raise e
+        try:
+            assert letter_1 != letter_2
+        except AssertionError as e:
+            self.logger.error("Letters for Plugboard Rewiring must be Unique")
+            raise e
+        init_1 = self.plugboard.plugboard_conversion(letter_1)
+        init_2 = self.plugboard.plugboard_conversion_inv(letter_2)
+        print(self.plugboard._plug_board_dict)
+        self.plugboard._plug_board_dict[letter_1] = letter_2
+        self.plugboard._plug_board_dict[letter_2] = letter_1
+        self.plugboard._plug_board_dict[init_2] = init_1
+        self.plugboard._plug_board_dict[init_1] = init_2
+        print(self.plugboard._plug_board_dict)
+
