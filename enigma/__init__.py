@@ -264,7 +264,6 @@ class Enigma:
             raise e
         init_1 = self.plugboard.plugboard_conversion(letter_1)
         init_2 = self.plugboard.plugboard_conversion_inv(letter_2)
-        print(self.plugboard._plug_board_dict)
         self.plugboard._plug_board_dict[letter_1] = letter_2
         self.plugboard._plug_board_dict[letter_2] = letter_1
         self.plugboard._plug_board_dict[init_2] = init_1
