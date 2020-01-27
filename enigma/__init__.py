@@ -137,19 +137,7 @@ class Enigma:
         return self.rotors[name2].alpha[n]
 
     def _get_inter_rotor_conv_inv(self, name1, name2, letter):
-        terminal = self.rotors[name1].alpha.index(letter)
-        zero_point_1 = self.rotors[name1].alpha.index(self.rotors[name1].face)
-        zero_point_2 = self.rotors[name2].alpha.index(self.rotors[name2].face)
-        interval = zero_point_2-zero_point_1
-        if zero_point_2 > zero_point_1:
-            i = [i for i in range(26)]
-            n = i[(terminal+interval) % len(i)]
-        else:
-            i = [i for i in range(26)]
-            n = i[(26+terminal+interval) % len(i)]
-        self.logger.debug("Rotor %s rotor to %s rotor conversion: %s to %s", name1, name2, letter, self.rotors[name2].alpha[n])
-        assert self.rotors[name2].alpha[n] is not None
-        return self.rotors[name2].alpha[n]
+        return self._get_inter_rotor_conv(name1, name2, letter)
 
     def type_letter(self, letter):
         letter = letter.upper()
@@ -268,5 +256,3 @@ class Enigma:
         self.plugboard._plug_board_dict[letter_2] = letter_1
         self.plugboard._plug_board_dict[init_2] = init_1
         self.plugboard._plug_board_dict[init_1] = init_2
-        print(self.plugboard._plug_board_dict)
-
