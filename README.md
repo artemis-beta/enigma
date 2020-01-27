@@ -20,7 +20,9 @@ enigma = enigma.Enigma( rotor_list     = my_rotor_list ,
                         enigma_type    = machine_type  ,
                         debug          = debug_level)
 
-enigma.ringstellung('right', 2)  # Perform an internal wire rotation on the middle rotor of 2 steps 
+enigma.ringstellung('right', 2)  # Perform an internal wire rotation on the right rotor of 2 steps 
+                                 # for M3 rotors are ['left', 'middle', 'right']
+                                 # for M4 rotors are ['left', 'middle left', 'middle right', 'right']
 
 enigma.set_key('NERO')
 enigma.type_phrase('NOBODYEXPECTSTHESPANISHINQUISITION')
