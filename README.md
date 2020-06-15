@@ -3,6 +3,8 @@ This is a small application written in python which simulates both the M3 and M4
 
 Included are two scripts for a quick demo of each: `enigmaM3_test.py` and `enigmaM4_test.py` which have preset keys and rotor selection.
 
+For the C++ version of this application visit [here](https://github.com/artemis-beta/enigma-cpp).
+
 ## App
 
 A small python script `enigma_app.py` exists within the package as a quickstart demo of the module.
