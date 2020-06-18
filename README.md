@@ -1,4 +1,6 @@
 # ENIGMA
+[![CodeFactor](https://www.codefactor.io/repository/github/artemis-beta/enigma/badge)](https://www.codefactor.io/repository/github/artemis-beta/enigma)![GitHub](https://img.shields.io/github/license/artemis-beta/enigma)
+
 This is a small application written in python which simulates both the M3 and M4, 3 and 4 rotor variants of the Enigma machine which was utilised by German forces during WWII to encode information.
 
 Included are two scripts for a quick demo of each: `enigmaM3_test.py` and `enigmaM4_test.py` which have preset keys and rotor selection.
