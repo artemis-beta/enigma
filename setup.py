@@ -1,6 +1,6 @@
 from setuptools import setup
 
-_test_requires = ['nose2', 'hypothesis']
+_test_requires = ['pytest', 'hypothesis']
 
 setup(name                =  'enigma'                                      ,
       version             =  '1.1.4'                                       ,
