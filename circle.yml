@@ -8,7 +8,7 @@ jobs:
                         - checkout
                         - run:
                                 name: Install Enigma with setup
-                                command: python -m pip install .
+                                command: python -m pip install .[test]
                         - run:
                                 name: Run Unit Tests
                                 command: python -m nose
