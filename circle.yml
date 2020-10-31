@@ -25,7 +25,7 @@ jobs:
                                 command: poetry install
                         - run:
                                 name: Run Unit Tests
-                                command: poetry run nose2
+                                command: poetry run pytest
 
 workflows:
         version: 2
