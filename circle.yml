@@ -1,16 +1,32 @@
 version: 2
 jobs:
-    build:
-       docker:
-               - image: python:latest
-       steps: 
-         - checkout
-         - run:
-              name: Create virtualenv
-              command: python -m venv myenv
-         - run:
-              name: Install app and test
-              command: |
-                      . myenv/bin/activate
-                      pip install .
-                      nose2
+        build_setup_py:
+                docker:
+                        - image: python:latest
+                steps:
+                        - checkout
+                        - run:
+                                name: Create virtualenv
+                                command: python -m venv myenv
+                        - run:
+                                name: Install Enigma with setup
+                                command: |
+                                        . myenv/bin/activate
+                                        pip install .
+                        - run:
+                                name: Run Unit Tests
+                                command: nose2
+        build_poetry:
+                docker:
+                        - image: python:latest
+                steps:
+                        - checkout
+                        - run:
+                                name: Install Poetry
+                                command: python -m pip install poetry
+                        - run:
+                                name: Install Enigma in Poetry
+                                command: poetry install
+                        - run:
+                                name: Run Unit Tests
+                                command: poetry run nose2
