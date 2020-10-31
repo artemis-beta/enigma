@@ -9,5 +9,6 @@ setup(name                =  'enigma'                                      ,
       license             =  'MIT'                                         ,
       packages            =  ['enigma']                                    ,
       zip_safe            =  False                                         ,
-      install_requires    =  ['nose2', 'hypothesis']
+      tests_require       =  ['nose2', 'hypothesis']                       ,
+      test_suite          =  'nose2.collector.collector'
      )
