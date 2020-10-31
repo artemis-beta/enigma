@@ -7,13 +7,8 @@ jobs:
                 steps:
                         - checkout
                         - run:
-                                name: Create virtualenv
-                                command: python -m venv myenv
-                        - run:
                                 name: Install Enigma with setup
-                                command: |
-                                        . myenv/bin/activate
-                                        pip install .
+                                command: python -m pip install .
                         - run:
                                 name: Run Unit Tests
                                 command: nose2
