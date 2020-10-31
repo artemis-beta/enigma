@@ -7,11 +7,8 @@ jobs:
                 steps:
                         - checkout
                         - run:
-                                name: Install Enigma with setup
-                                command: python -m pip install .[test]
-                        - run:
-                                name: Run Unit Tests
-                                command: python -m nose
+                                name: Install Enigma and Run Unit Tests
+                                command: python -m pip install --install-option test
         build_poetry:
                 docker:
                         - image: python:latest
