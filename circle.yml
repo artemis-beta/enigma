@@ -11,7 +11,7 @@ jobs:
                                 command: python -m pip install .
                         - run:
                                 name: Run Unit Tests
-                                command: python -m nose2
+                                command: python -m nose
         build_poetry:
                 docker:
                         - image: python:latest
