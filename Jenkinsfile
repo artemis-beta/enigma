@@ -1,16 +1,15 @@
 pipeline {
+    
     agent { docker { image 'python:latest' } }
     stages {
-        stage('install_enigma') {
-            steps {
-                sh 'python -m pip install -U --upgrade pip'
-                sh 'python -m pip install -U poetry'
-                sh 'poetry install'
-            }
+        stage('Poetry Configuration') {
+                sh 'apt-get update && apt-get install -y curl'
+                sh "curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python"
+                sh "$HOME/.poetry/bin/poetry install --no-root"
         }
 	    stage('run_unit_tests') {
             steps {
-		        sh 'poetry run pytest tests/'
+		        sh '$HOME/.poetry/bin/poetry run pytest tests/'
             }
         }
     }
