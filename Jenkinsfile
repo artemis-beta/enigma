@@ -4,12 +4,14 @@ pipeline {
         stage('install_enigma') {
             steps {
                 sh 'python -m pip install --upgrade pip'
-		sh 'python -m pip install poetry'
-		sh 'poetry install'
+                sh 'python -m pip install poetry'
+                sh 'poetry install'
             }
-	}
-	stage('run_unit_tests') {
-		sh 'poetry run pytest tests/'
+        }
+	    stage('run_unit_tests') {
+            steps {
+		        sh 'poetry run pytest tests/'
+            }
         }
     }
 }
