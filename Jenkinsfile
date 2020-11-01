@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('install_enigma') {
             steps {
-                sh 'python -m pip install --upgrade pip'
-                sh 'python -m pip install poetry'
+                sh 'python -m pip -U install --upgrade pip'
+                sh 'python -m pip -U install poetry'
                 sh 'poetry install'
             }
         }
