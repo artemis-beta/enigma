@@ -1,18 +1,32 @@
 [tool.poetry]
 name = "enigma"
-version = "1.1.4"
+version = "1.2.1"
 description = "Enigma Machine Emulator for Python."
 authors = ["Kristian Zarebski <krizar312@gmail.com>"]
 license = "MIT"
+readme = "README.md"
+keywords = ["enigma", "cipher", "encoding"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.6.1"
 hypothesis = "^5.41.0"
 pytest = "^6.1.2"
+prompt-toolkit = "^3.0.10"
 
 [tool.poetry.dev-dependencies]
 hypothesis = "^5.41.0"
+asv = "^0.4.2"
+mypy = "^0.790"
+pylama = "^7.7.1"
+black = "^20.8b1"
+flake8 = "^3.8.4"
+prospector = "^1.3.1"
+pydocstyle = "^5.1.1"
+pytest = "^6.2.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+enigma = 'enigma.terminal_app:main'
