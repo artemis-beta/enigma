@@ -15,7 +15,7 @@ jobs:
         - name: Install Enigma
           run: poetry install
         - name: Run Unit Tests
-          run: poetry run pytest --cov=enigma
+          run: poetry run pytest --cov=enigma --cov-report xml
         - name: "Upload coverage to Codecov"
           uses: codecov/codecov-action@v1
           with:
