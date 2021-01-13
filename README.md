@@ -1,4 +1,6 @@
 # ENIGMA
+![python3.7](https://github.com/artemis-beta/enigma/workflows/python3.7/badge.svg) ![python3.8](https://github.com/artemis-beta/enigma/workflows/python3.8/badge.svg) ![python3.9](https://github.com/artemis-beta/enigma/workflows/python3.9/badge.svg)
+
 [![CodeFactor](https://www.codefactor.io/repository/github/artemis-beta/enigma/badge)](https://www.codefactor.io/repository/github/artemis-beta/enigma)![GitHub](https://img.shields.io/github/license/artemis-beta/enigma)
 
 This is a small application written in python which simulates both the M3 and M4, 3 and 4 rotor variants of the Enigma machine which was utilised by German forces during WWII to encode information.
@@ -38,10 +40,3 @@ enigma.ringstellung('right', 2)  # Perform an internal wire rotation on the righ
 enigma.set_key('NERO')
 enigma.type_phrase('NOBODYEXPECTSTHESPANISHINQUISITION')
 ```
-
-## Testing
-| Branch  | Tests |
-|---|---|
-| Master | [![CircleCI](https://circleci.com/gh/artemis-beta/enigma/tree/master.svg?style=svg)](https://circleci.com/gh/artemis-beta/enigma/tree/master)|
-| enigma-Mn | [![CircleCI](https://circleci.com/gh/artemis-beta/enigma/tree/enigma-Mn.svg?style=svg)](https://circleci.com/gh/artemis-beta/enigma/tree/enigma-Mn) |
-| enigma-dev | [![CircleCI](https://circleci.com/gh/artemis-beta/enigma/tree/enigma-dev.svg?style=svg)](https://circleci.com/gh/artemis-beta/enigma/tree/enigma-dev) |
