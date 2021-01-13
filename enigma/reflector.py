@@ -19,6 +19,7 @@ class Reflector:
     Base class for construction of a reflector which sends forward encoded
     cipher back through enigma machine after translation.
     """
+
     def __init__(self) -> None:
         """Initialise an instance of the reflector class."""
         self._reflector_dict: Dict[str, str] = {}
@@ -40,13 +41,12 @@ class Reflector:
             assert self._reflector_dict[letter]
             return self._reflector_dict[letter]
         except (KeyError, AssertionError):
-            raise KeyError(
-                "Could not find '{}' in Reflector Dictionary".format(letter)
-            )
+            raise KeyError("Could not find '{}' in Reflector Dictionary".format(letter))
 
 
 class ReflectorB(Reflector):
     """Enigma Reflector Type B"""
+
     def __init__(self) -> None:
         """
         Initialise a Type B Enigma Reflector.
@@ -91,6 +91,7 @@ class ReflectorB(Reflector):
 
 class ReflectorC(Reflector):
     """Enigma Reflector Type C"""
+
     def __init__(self) -> None:
         """
         Initialise a Type C Enigma Reflector.

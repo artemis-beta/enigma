@@ -20,6 +20,7 @@ class Rotor:
     Base Rotor class for an Enigma rotor which consists of 26 positions
     representing all letters of the alphabet connecting in a unique scheme.
     """
+
     def __init__(self) -> None:
         """Initialise an instance of the Rotor class."""
         self.alpha = string.ascii_uppercase
@@ -52,7 +53,7 @@ class Rotor:
         Arguments
         ---------
         letter  (string)    letter to set as notch position
- 
+
         """
         assert letter.upper() in self.alpha, "Invalid Rotor Symbol"
         self.notches = [letter.upper()]
@@ -75,16 +76,14 @@ class Rotor:
             pos = 0
         else:
             pos += 1
- 
+
         # If another rotor is specified perform the same action on that
         # rotor also
         if other:
             try:
                 other.rotate_rotor()
             except AttributeError:
-                raise ValueError(
-                    "Failed to rotate 'other' rotor, is it of type Rotor?"
-                )
+                raise ValueError("Failed to rotate 'other' rotor, is it of type Rotor?")
 
         self.face = self.alpha[pos]
 
@@ -134,9 +133,7 @@ class Rotor:
             if key == i:
                 return key
 
-        raise ValueError(
-            "Failed to find input terminal for letter '{}'".format(letter)
-        )
+        raise ValueError("Failed to find input terminal for letter '{}'".format(letter))
 
     def get_rotor_conversion(self, letter: str) -> str:
         """
@@ -156,9 +153,7 @@ class Rotor:
             assert self.alpha[self.wiring[i]]
             return self.alpha[self.wiring[i]]
         except (AssertionError, KeyError):
-            raise ValueError(
-                "Failed to find conversion for letter '{}'".format(letter)
-            )
+            raise ValueError("Failed to find conversion for letter '{}'".format(letter))
 
     def get_rotor_conversion_inv(self, letter: str) -> str:
         """
@@ -184,7 +179,7 @@ class Rotor:
                         "Failed to find inverse "
                         "conversion for letter '{}' "
                         "using rotor wire scheme.".format(letter)
-                    )  
+                    )
 
         # Let's Be Safe and Check That All Rotors Function Correctly
         print(
@@ -202,15 +197,13 @@ class Rotor:
             print("Duplicates found: ")
             print(seen)
         else:
-            print(
-                "Have you missed out a value in the wiring "
-                "definition range 0-25?"
-            )
+            print("Have you missed out a value in the wiring " "definition range 0-25?")
         raise SystemExit
 
 
 class Rotor1(Rotor):
     """Enigma Rotor Type I"""
+
     def __init__(self):
         super().__init__()
         self.name = "I"
@@ -249,6 +242,7 @@ class Rotor1(Rotor):
 
 class Rotor2(Rotor):
     """Enigma Rotor Type II"""
+
     def __init__(self) -> None:
         """
         Initialise a Type 2 Enigma rotor.
@@ -294,6 +288,7 @@ class Rotor2(Rotor):
 
 class Rotor3(Rotor):
     """Enigma Rotor Type III"""
+
     def __init__(self) -> None:
         """
         Initialise a Type 3 Enigma rotor.
@@ -339,6 +334,7 @@ class Rotor3(Rotor):
 
 class Rotor4(Rotor):
     """Enigma Rotor Type IV"""
+
     def __init__(self) -> None:
         """
         Initialise a Type 4 Enigma rotor.
@@ -384,6 +380,7 @@ class Rotor4(Rotor):
 
 class Rotor5(Rotor):
     """Enigma Rotor Type V"""
+
     def __init__(self) -> None:
         """
         Initialise a Type 5 Enigma rotor.
@@ -429,6 +426,7 @@ class Rotor5(Rotor):
 
 class Rotor6(Rotor):
     """Enigma Rotor Type VI"""
+
     def __init__(self) -> None:
         """
         Initialise a Type 6 Enigma rotor.
@@ -474,6 +472,7 @@ class Rotor6(Rotor):
 
 class Rotor7(Rotor):
     """Enigma Rotor Type VII"""
+
     def __init__(self) -> None:
         """
         Initialise a Type 7 Enigma rotor.

@@ -13,12 +13,14 @@
 import enigma
 from typing import List
 
+
 class EnigmaApp:
     """
     Terminal demonstration application for the Enigma machine Python module.
     Consists of a set of prompts to the user allowing them to setup a machine
     and then enter phrases to be encoded.
     """
+
     def __init__(self) -> None:
         """Initialise a new instance of the Enigma Terminal Application"""
         _enigma_m3_intro = enigma.Enigma(debug="DEBUG")
@@ -40,7 +42,9 @@ class EnigmaApp:
         ===========================================
         Type 'q' or 'quit' to exit.
 
-        """.format(_enigma_m3_intro.version)
+        """.format(
+            _enigma_m3_intro.version
+        )
 
         print(_intro)
 
@@ -55,7 +59,7 @@ class EnigmaApp:
                 exit(0)
 
         if _choice == "N":
-            return [0]*(len(self._rotors)-1)
+            return [0] * (len(self._rotors) - 1)
 
         while not _ringstellung_offsets:
             try:
@@ -66,10 +70,12 @@ class EnigmaApp:
                 )
 
                 _ringstellung_offsets = [
-                    int(i) for i in list(_rsg_input.replace(' ', '').strip())
+                    int(i) for i in list(_rsg_input.replace(" ", "").strip())
                 ]
 
-                assert len(_ringstellung_offsets) == len(self._key), "Invalid number of offsets"
+                assert len(_ringstellung_offsets) == len(
+                    self._key
+                ), "Invalid number of offsets"
 
             except (AssertionError, ValueError):
                 _ringstellung_offsets = None
@@ -120,9 +126,7 @@ class EnigmaApp:
                     " numbers 1-8): ".format(len(self._key))
                 )
 
-                _rotors = [
-                    int(i) for i in list(_rotor_input.replace(' ', '').strip())
-                ]
+                _rotors = [int(i) for i in list(_rotor_input.replace(" ", "").strip())]
 
                 assert len(_rotors) == len(self._key), "Invalid number of rotor inputs"
 
@@ -131,8 +135,7 @@ class EnigmaApp:
 
         return _rotors
 
-    def fetch_phrases(self, machine: enigma.Enigma,
-                      ringstellung: List[int]) -> None:
+    def fetch_phrases(self, machine: enigma.Enigma, ringstellung: List[int]) -> None:
         """Request user inputs for phrases to encode."""
         self.apply_rsg(ringstellung, machine)
 
@@ -144,7 +147,7 @@ class EnigmaApp:
                     enigma_ = enigma.Enigma(
                         rotor_list=self._rotors,
                         enigma_type=self._enigma_type,
-                        debug="DEBUG"
+                        debug="DEBUG",
                     )
                     enigma_.set_key(self._key)
                     self.apply_rsg(ringstellung, machine)
@@ -152,12 +155,10 @@ class EnigmaApp:
 
     def run(self) -> None:
         """Run terminal application"""
-        self._enigma_type = 'M3' if len(self._key) == 3 else 'M4'
+        self._enigma_type = "M3" if len(self._key) == 3 else "M4"
 
         _enigma = enigma.Enigma(
-            rotor_list=self._rotors,
-            enigma_type=self._enigma_type,
-            debug="DEBUG"
+            rotor_list=self._rotors, enigma_type=self._enigma_type, debug="DEBUG"
         )
 
         self._key = self.key_set_option()

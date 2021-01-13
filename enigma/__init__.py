@@ -26,10 +26,14 @@ class Enigma:
     and simulating either an M3 or M4 variant of the famous WWII cipher
     encoding/decoding machine.
     """
-    def __init__(self, rotor_list: List[int] = None,
-                 user_reflector: str = None,
-                 debug: str = 'ERROR',
-                 enigma_type: str = 'M3') -> None:
+
+    def __init__(
+        self,
+        rotor_list: List[int] = None,
+        user_reflector: str = None,
+        debug: str = "ERROR",
+        enigma_type: str = "M3",
+    ) -> None:
         """
         Enigma Machine Class based on the Enigma Model 3 ciphering machine.
 
@@ -45,7 +49,7 @@ class Enigma:
            debug:          'DEBUG'   Set debug level, default is 'ERROR'
 
         """
-        self.version = 'v1.2.1'
+        self.version = "v1.2.1"
         self.isBeta = False
         self.type = enigma_type.upper()
 
@@ -58,13 +62,13 @@ class Enigma:
             5: rotor.Rotor5(),
             6: rotor.Rotor6(),
             7: rotor.Rotor7(),
-            8: rotor.Rotor8()
+            8: rotor.Rotor8(),
         }
 
         # Initialise all reflectors as objects within member dictionary
         self._reflector_types = {
-            'B': reflector.ReflectorB(),
-            'C': reflector.ReflectorC()
+            "B": reflector.ReflectorB(),
+            "C": reflector.ReflectorC(),
         }
 
         # Chosen rotor set stored as an ordered dictionary
@@ -76,7 +80,7 @@ class Enigma:
         self.logger.setLevel(debug)
         logging.basicConfig()
 
-        if self.type == 'M3':
+        if self.type == "M3":
             if not rotor_list:
                 rotor_list = [5, 3, 1]
 
@@ -85,11 +89,11 @@ class Enigma:
             except AssertionError:
                 raise IndexError("Invalid Rotor List Argument for Enigma M3")
 
-            self.rotors['left'] = self._rotor_types[rotor_list[0]]
-            self.rotors['middle'] = self._rotor_types[rotor_list[1]]
-            self.rotors['right'] = self._rotor_types[rotor_list[2]]
+            self.rotors["left"] = self._rotor_types[rotor_list[0]]
+            self.rotors["middle"] = self._rotor_types[rotor_list[1]]
+            self.rotors["right"] = self._rotor_types[rotor_list[2]]
 
-        elif self.type == 'M4':
+        elif self.type == "M4":
             if not rotor_list:
                 rotor_list = [5, 3, 1, 2]
 
@@ -98,10 +102,10 @@ class Enigma:
             except AssertionError:
                 raise IndexError("Invalid Rotor List Argument for Enigma M4")
 
-            self.rotors['left'] = self._rotor_types[rotor_list[0]]
-            self.rotors['middle left'] = self._rotor_types[rotor_list[1]]
-            self.rotors['middle right'] = self._rotor_types[rotor_list[2]]
-            self.rotors['right'] = self._rotor_types[rotor_list[3]]
+            self.rotors["left"] = self._rotor_types[rotor_list[0]]
+            self.rotors["middle left"] = self._rotor_types[rotor_list[1]]
+            self.rotors["middle right"] = self._rotor_types[rotor_list[2]]
+            self.rotors["right"] = self._rotor_types[rotor_list[3]]
 
         else:
             TypeError("Unrecognised Enigma type '{}'".format(self.type))
@@ -110,7 +114,7 @@ class Enigma:
         self._rotor_dict_keys = tuple(self.rotors.keys())
 
         # Setup the reflector choice
-        user_reflector = user_reflector if user_reflector else 'B'
+        user_reflector = user_reflector if user_reflector else "B"
         self.reflector = self._reflector_types[user_reflector]
 
         # Setup plugboard
@@ -150,7 +154,7 @@ class Enigma:
                 j,
                 name,
                 letter,
-                self.rotors[name].get_rotor_conversion(letter)
+                self.rotors[name].get_rotor_conversion(letter),
             )
 
             self.rotors[name].rotate_inner_ring()
@@ -160,7 +164,7 @@ class Enigma:
                 j,
                 name,
                 letter,
-                self.rotors[name].get_rotor_conversion(letter)
+                self.rotors[name].get_rotor_conversion(letter),
             )
 
     def _set_rotor(self, name: str, letter: str) -> None:
@@ -198,7 +202,7 @@ class Enigma:
             "Rotor %s conversion: %s to %s",
             name,
             letter,
-            self.rotors[name].get_rotor_conversion(letter)
+            self.rotors[name].get_rotor_conversion(letter),
         )
 
         return self.rotors[name].get_rotor_conversion(letter)
@@ -222,13 +226,12 @@ class Enigma:
             "Rotor %s conversion: %s to %s",
             name,
             letter,
-            self.rotors[name].get_rotor_conversion_inv(letter)
+            self.rotors[name].get_rotor_conversion_inv(letter),
         )
 
         return self.rotors[name].get_rotor_conversion_inv(letter)
 
-    def _get_inter_rotor_conv(self, name1: str,
-                              name2: str, letter: str) -> str:
+    def _get_inter_rotor_conv(self, name1: str, name2: str, letter: str) -> str:
         """
         Find encoding of a given letter when passed between two rotors.
 
@@ -256,23 +259,23 @@ class Enigma:
         zero_point_2 = self.rotors[name2].alpha.index(self.rotors[name2].face)
 
         # Offset between the two letter positions of the two rotors
-        interval = zero_point_2-zero_point_1
+        interval = zero_point_2 - zero_point_1
 
         # Find the subsequent letter from the second rotor given the index on
         # the first taking into account the maximum index of 25
         if interval > 0:
             i = list(range(26))
-            n = i[(terminal+interval) % len(i)]
+            n = i[(terminal + interval) % len(i)]
         else:
             i = list(range(26))
-            n = i[(26+terminal+interval) % len(i)]
+            n = i[(26 + terminal + interval) % len(i)]
 
         self.logger.debug(
             "Rotor %s rotor to %s rotor conversion: %s to %s",
             name1,
             name2,
             letter,
-            self.rotors[name2].alpha[n]
+            self.rotors[name2].alpha[n],
         )
 
         if not self.rotors[name2].alpha[n]:
@@ -283,8 +286,7 @@ class Enigma:
 
         return self.rotors[name2].alpha[n]
 
-    def _get_inter_rotor_conv_inv(self, name1: str, name2: str,
-                                  letter: str) -> str:
+    def _get_inter_rotor_conv_inv(self, name1: str, name2: str, letter: str) -> str:
         """
         Find inverse conversion between rotors (same as forward conversion).
 
@@ -326,8 +328,8 @@ class Enigma:
 
         # TODO not sure what to call this action...
         for i, j in zip(
-                reversed(self._rotor_dict_keys[1:]),
-                reversed(self._rotor_dict_keys[:-1]),
+            reversed(self._rotor_dict_keys[1:]),
+            reversed(self._rotor_dict_keys[:-1]),
         ):
             if self.rotors[i].face in self.rotors[i].notches:
                 self._move_rotor(j, 1)
@@ -337,16 +339,12 @@ class Enigma:
             # Get the rotor conversion for given key
             cipher = self._get_rotor_conv(rotor_key, cipher)
             # Get the inter rotor conversion for the key and the key-1
-            adj_rotor_key_index = self._rotor_dict_keys.index(rotor_key)-1
+            adj_rotor_key_index = self._rotor_dict_keys.index(rotor_key) - 1
             # At this point we should be ready for reflection
             if adj_rotor_key_index < 0:
                 break
             adj_rotor_key = self._rotor_dict_keys[adj_rotor_key_index]
-            cipher = self._get_inter_rotor_conv(
-                rotor_key,
-                adj_rotor_key,
-                cipher
-            )
+            cipher = self._get_inter_rotor_conv(rotor_key, adj_rotor_key, cipher)
         else:
             assert False, "Shouldn't get here!"
 
@@ -358,12 +356,10 @@ class Enigma:
             cipher = self._get_rotor_conv_inv(rotor_key, cipher)
             try:
                 # Get the inter rotor conv_inversion for the key and the key-1
-                adj_rotor_key_index = self._rotor_dict_keys.index(rotor_key)+1
+                adj_rotor_key_index = self._rotor_dict_keys.index(rotor_key) + 1
                 adj_rotor_key = self._rotor_dict_keys[adj_rotor_key_index]
                 cipher = self._get_inter_rotor_conv_inv(
-                    rotor_key,
-                    adj_rotor_key,
-                    cipher
+                    rotor_key, adj_rotor_key, cipher
                 )
             except IndexError:
                 # At this point we should be ready for reflection
@@ -410,7 +406,7 @@ class Enigma:
 
         """
         # Remove spaces from the phrase string
-        phrase = phrase.replace(' ', '')
+        phrase = phrase.replace(" ", "")
 
         # Determine how many extra characters are required in order to assemble
         # cipher into the expected groups of 5 letters
@@ -420,7 +416,7 @@ class Enigma:
         for i in range(remainder):
             phrase += random.choice(string.ascii_letters.upper())
 
-        out_str = ''
+        out_str = ""
 
         # Encode the phrase one letter at a time assembling the results into
         # an output string
@@ -428,7 +424,7 @@ class Enigma:
             out_str += self.type_letter(letter)
 
         # Format the output to be groups five letters in size
-        out_str = ' '.join(out_str[i:i+5] for i in range(0, len(out_str), 5))
+        out_str = " ".join(out_str[i : i + 5] for i in range(0, len(out_str), 5))
 
         return out_str
 
@@ -467,9 +463,9 @@ class Enigma:
             assert isinstance(letter_1, str) and isinstance(letter_2, str)
         except AssertionError as e:
             self.logger.error(
-                "Invalid Characters for Plugboard Rewiring '%s' and '%s'", 
+                "Invalid Characters for Plugboard Rewiring '%s' and '%s'",
                 letter_1,
-                letter_2
+                letter_2,
             )
             raise e
         try:

@@ -17,6 +17,7 @@ class Plugboard:
     Class representing the Enigma plugboard component for manual letter
     encoding by connecting two letters via a dictionary
     """
+
     def __init__(self) -> None:
         """Initialise a plugboard instance as a Python dictionary."""
 
@@ -81,7 +82,7 @@ class Plugboard:
         for key in self._plug_board_dict:
             if self._plug_board_dict[key] == letter:
                 return key
-        
+
         raise KeyError("Could not find conversion for '{}'".format(letter))
 
     def rewire(self, letter_1: str, letter_2: str) -> None:
