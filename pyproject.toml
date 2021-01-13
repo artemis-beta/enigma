@@ -3,15 +3,12 @@ name = "enigma"
 version = "1.2.1"
 description = "Enigma Machine Emulator for Python."
 authors = ["Kristian Zarebski <krizar312@gmail.com>"]
-license = "MIT"
+license = "GPL-v3"
 readme = "README.md"
 keywords = ["enigma", "cipher", "encoding"]
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
-hypothesis = "^5.41.0"
-pytest = "^6.1.2"
-prompt-toolkit = "^3.0.10"
 
 [tool.poetry.dev-dependencies]
 hypothesis = "^5.41.0"
