@@ -3,7 +3,7 @@ import enigma
 enigma_m3 = enigma.Enigma(debug="DEBUG")
 version = enigma_m3.version
 
-if enigma_m3.isBeta:
+if enigma_m3.is_beta:
     version += " (BETA)"
 
 intro = """

@@ -7,7 +7,7 @@
 #   capability.                                                               #
 #                                                                             #
 #   @authors :   K. Zarebski                                                  #
-#   @date    :   last modified 2020-01-12                                     #
+#   @date    :   last modified 2021-08-14                                     #
 #                                                                             #
 ###############################################################################
 import enigma
@@ -28,7 +28,7 @@ class EnigmaApp:
         self._key: str = ""
         self._rotors: List[int] = []
 
-        if _enigma_m3_intro.isBeta:
+        if _enigma_m3_intro.is_beta:
             _version += " (BETA)"
 
         _intro = """
@@ -42,9 +42,7 @@ class EnigmaApp:
         ===========================================
         Type 'q' or 'quit' to exit.
 
-        """.format(
-            _enigma_m3_intro.version
-        )
+        """.format(_version)
 
         print(_intro)
 

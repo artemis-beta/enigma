@@ -9,6 +9,8 @@ logger.setLevel("DEBUG")
 
 import string
 
+CIPHER_FAILED = "Cipher->Decipher Failed to Return Initial Letter"
+
 
 class RotorTest(unittest.TestCase):
     @settings(max_examples=100)
@@ -30,7 +32,7 @@ class RotorTest(unittest.TestCase):
             out,
             back,
         )
-        assert back == letter, "Cipher->Decipher Failed to Return Initial Letter"
+        assert back == letter, CIPHER_FAILED
 
     @settings(max_examples=100)
     @given(
@@ -53,7 +55,7 @@ class RotorTest(unittest.TestCase):
             out,
             back,
         )
-        assert back == letter, "Cipher->Decipher Failed to Return Initial Letter"
+        assert back == letter, CIPHER_FAILED
 
     @settings(max_examples=100)
     @given(
@@ -89,7 +91,7 @@ class RotorTest(unittest.TestCase):
             out,
             back,
         )
-        assert back == letter, "Cipher->Decipher Failed to Return Initial Letter"
+        assert back == letter, CIPHER_FAILED
 
 
 if __name__ == "__main__":

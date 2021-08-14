@@ -3,7 +3,7 @@ import enigma
 enigma_m4 = enigma.Enigma(debug="DEBUG", enigma_type="M4", rotor_list=[1, 3, 5, 8])
 version = enigma_m4.version
 
-if enigma_m4.isBeta:
+if enigma_m4.is_beta:
     version += " (BETA)"
 
 intro = """

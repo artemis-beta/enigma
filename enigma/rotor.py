@@ -7,7 +7,7 @@
 #   two terminals.                                                            #
 #                                                                             #
 #   @authors :   K. Zarebski                                                  #
-#   @date    :   last modified 2020-01-12                                     #
+#   @date    :   last modified 2021-08-14                                     #
 #                                                                             #
 ###############################################################################
 
@@ -197,7 +197,10 @@ class Rotor:
             print("Duplicates found: ")
             print(seen)
         else:
-            print("Have you missed out a value in the wiring " "definition range 0-25?")
+            print(
+                "Have you missed out a value in the wiring "
+                "definition range 0-25?"
+            )
         raise SystemExit
 
 

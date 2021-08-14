@@ -6,7 +6,7 @@
 #   Enigma machine for simulating encoding/decoding.                          #
 #                                                                             #
 #   @authors :   K. Zarebski, N. Farley                                       #
-#   @date    :   last modified 2020-01-12                                     #
+#   @date    :   last modified 2021-08-14                                     #
 #                                                                             #
 ###############################################################################
 from collections import OrderedDict
@@ -49,8 +49,8 @@ class Enigma:
            debug:          'DEBUG'   Set debug level, default is 'ERROR'
 
         """
-        self.version = "v1.2.1"
-        self.isBeta = False
+        self.version = "v1.2.2"
+        self.is_beta = False
         self.type = enigma_type.upper()
 
         # Initialise all rotor types as objects within member dictionary
@@ -108,7 +108,7 @@ class Enigma:
             self.rotors["right"] = self._rotor_types[rotor_list[3]]
 
         else:
-            TypeError("Unrecognised Enigma type '{}'".format(self.type))
+            raise TypeError("Unrecognised Enigma type '{}'".format(self.type))
 
         # After setting rotors, get a tuple of the dict keys for index tricks.
         self._rotor_dict_keys = tuple(self.rotors.keys())
@@ -413,7 +413,7 @@ class Enigma:
         remainder = 5 - len(phrase) % 5 if len(phrase) % 5 != 0 else 0
 
         # Generate as many random letters and append to the input phrase
-        for i in range(remainder):
+        for _ in range(remainder):
             phrase += random.choice(string.ascii_letters.upper())
 
         out_str = ""
