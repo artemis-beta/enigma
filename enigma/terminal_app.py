@@ -42,7 +42,9 @@ class EnigmaApp:
         ===========================================
         Type 'q' or 'quit' to exit.
 
-        """.format(_version)
+        """.format(
+            _version
+        )
 
         print(_intro)
 
