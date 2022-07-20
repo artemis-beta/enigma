@@ -67,18 +67,11 @@ class RotorTest(unittest.TestCase):
     def test_rotor_conv(self, letter, rotor, position, key):
         rotor_list = []
         if position == "left":
-            rotor_list.append(rotor)
-            rotor_list.append(4)
-            rotor_list.append(3)
+            rotor_list.extend((rotor, 4, 3))
         elif position == "middle":
-            rotor_list.append(4)
-            rotor_list.append(rotor)
-            rotor_list.append(3)
+            rotor_list.extend((4, rotor, 3))
         else:
-            rotor_list.append(4)
-            rotor_list.append(3)
-            rotor_list.append(rotor)
-
+            rotor_list.extend((4, 3, rotor))
         machine = enigma.Enigma(rotor_list=rotor_list, user_reflector="B")
         machine.set_key(key)
         out = machine._get_rotor_conv("left", letter)

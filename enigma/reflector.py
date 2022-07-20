@@ -38,10 +38,9 @@ class Reflector:
 
         """
         try:
-            assert self._reflector_dict[letter]
             return self._reflector_dict[letter]
-        except (KeyError, AssertionError):
-            raise KeyError("Could not find '{}' in Reflector Dictionary".format(letter))
+        except KeyError as e:
+            raise KeyError(f"Could not find '{letter}' in Reflector Dictionary") from e
 
 
 class ReflectorB(Reflector):

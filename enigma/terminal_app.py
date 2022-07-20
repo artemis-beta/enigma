@@ -63,19 +63,17 @@ class EnigmaApp:
 
         while not _ringstellung_offsets:
             try:
-                _rsg_input = input(
-                    "Set Number of Internal Wiring Rotation "
-                    "Increments for Each of the "
-                    "{} Rotors: ".format(len(self._key))
-                )
+                _rsg_input = input(f"Set Number of Internal Wiring Rotation Increments for Each of the {len(self._key)} Rotors: ")
+
 
                 _ringstellung_offsets = [
                     int(i) for i in list(_rsg_input.replace(" ", "").strip())
                 ]
 
-                assert len(_ringstellung_offsets) == len(
+                if len(_ringstellung_offsets) != len(
                     self._key
-                ), "Invalid number of offsets"
+                ):
+                    raise AssertionError("Invalid number of offsets")
 
             except (AssertionError, ValueError):
                 _ringstellung_offsets = None
@@ -98,8 +96,12 @@ class EnigmaApp:
         while not _key:
             try:
                 _key = input("Enter 3/4 character key: ")
-                assert len(_key) in [3, 4], "Only Enigma M3 and Enigma M4 supported"
-                assert _key.isalpha(), "Key must be formed of characters only"
+                if len(_key) not in {3, 4}:
+                    raise AssertionError("Only Enigma M3 and Enigma M4 supported")
+
+                if not _key.isalpha():
+                    raise AssertionError(f"Key '{_key}' must be formed of characters only")
+
             except AssertionError:
                 _key = None
 
@@ -120,15 +122,13 @@ class EnigmaApp:
 
         while not _rotors:
             try:
-                _rotor_input = input(
-                    "Set Number Combination ({} "
-                    "Unique space separated"
-                    " numbers 1-8): ".format(len(self._key))
-                )
+                _rotor_input = input(f"Set Number Combination ({len(self._key)} Unique space separated numbers 1-8): ")
+
 
                 _rotors = [int(i) for i in list(_rotor_input.replace(" ", "").strip())]
 
-                assert len(_rotors) == len(self._key), "Invalid number of rotor inputs"
+                if len(_rotors) != len(self._key):
+                    raise AssertionError("Invalid number of rotor inputs")
 
             except (AssertionError, ValueError):
                 _rotors = None
@@ -151,7 +151,7 @@ class EnigmaApp:
                     )
                     enigma_.set_key(self._key)
                     self.apply_rsg(ringstellung, machine)
-                print("OUTPUT: {}".format(machine.type_phrase(_input_phrase)))
+                print(f"OUTPUT: {machine.type_phrase(_input_phrase)}")
 
     def run(self) -> None:
         """Run terminal application"""

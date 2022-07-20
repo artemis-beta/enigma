@@ -14,6 +14,8 @@ python = "^3.8"
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
 black = "^22.6.0"
+hypothesis = "^6.52.3"
+bandit = {extras = ["toml"], version = "^1.7.4"}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -21,3 +23,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 enigma = 'enigma.terminal_app:main'
+
+[tool.bandit]
+skips = ["B311"]

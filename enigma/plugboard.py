@@ -83,7 +83,7 @@ class Plugboard:
             if self._plug_board_dict[key] == letter:
                 return key
 
-        raise KeyError("Could not find conversion for '{}'".format(letter))
+        raise KeyError(f"Could not find conversion for '{letter}'")
 
     def rewire(self, letter_1: str, letter_2: str) -> None:
         """

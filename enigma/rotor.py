@@ -55,7 +55,8 @@ class Rotor:
         letter  (string)    letter to set as notch position
 
         """
-        assert letter.upper() in self.alpha, "Invalid Rotor Symbol"
+        if letter.upper() not in self.alpha:
+            raise AssertionError("Invalid Rotor Symbol")
         self.notches = [letter.upper()]
 
     def rotate_rotor(self, other=None) -> None:
@@ -82,8 +83,8 @@ class Rotor:
         if other:
             try:
                 other.rotate_rotor()
-            except AttributeError:
-                raise ValueError("Failed to rotate 'other' rotor, is it of type Rotor?")
+            except AttributeError as e:
+                raise ValueError("Failed to rotate 'other' rotor, is it of type Rotor?") from e
 
         self.face = self.alpha[pos]
 
@@ -133,7 +134,7 @@ class Rotor:
             if key == i:
                 return key
 
-        raise ValueError("Failed to find input terminal for letter '{}'".format(letter))
+        raise ValueError(f"Failed to find input terminal for letter '{letter}'")
 
     def get_rotor_conversion(self, letter: str) -> str:
         """
@@ -150,10 +151,10 @@ class Rotor:
         """
         i = self.alpha.index(letter)
         try:
-            assert self.alpha[self.wiring[i]]
+            self.alpha[self.wiring[i]]
             return self.alpha[self.wiring[i]]
-        except (AssertionError, KeyError):
-            raise ValueError("Failed to find conversion for letter '{}'".format(letter))
+        except KeyError as e:
+            raise ValueError(f"Failed to find conversion for letter '{letter}'") from e
 
     def get_rotor_conversion_inv(self, letter: str) -> str:
         """
@@ -172,28 +173,15 @@ class Rotor:
         for key in self.wiring:
             if self.wiring[key] == i:
                 try:
-                    assert self.alpha[key]
                     return self.alpha[key]
-                except (AssertionError, KeyError):
-                    raise ValueError(
-                        "Failed to find inverse "
-                        "conversion for letter '{}' "
-                        "using rotor wire scheme.".format(letter)
-                    )
+                except KeyError as e:
+                    raise ValueError(f"Failed to find inverse conversion for letter '{letter}' using rotor wire scheme.") from e
 
         # Let's Be Safe and Check That All Rotors Function Correctly
-        print(
-            "ERROR: Could not find key which returns alphabet index {} "
-            "in wiring dictionary for rotor '{}':".format(
-                self.alpha.index(letter), self.name
-            )
-        )
+        print(f"ERROR: Could not find key which returns alphabet index {self.alpha.index(letter)} in wiring dictionary for rotor '{self.name}':")
+
         print(list(self.wiring.values()))
-        seen = set()
-        for x in list(self.wiring.values()):
-            if list(self.wiring.values()).count(x) >= 2:
-                seen.add(x)
-        if len(seen) != 0:
+        if seen := {x for x in list(self.wiring.values()) if list(self.wiring.values()).count(x) >= 2}:
             print("Duplicates found: ")
             print(seen)
         else:

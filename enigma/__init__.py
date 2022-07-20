@@ -84,9 +84,7 @@ class Enigma:
             if not rotor_list:
                 rotor_list = [5, 3, 1]
 
-            try:
-                assert len(rotor_list) == 3
-            except AssertionError:
+            if len(rotor_list) != 3:
                 raise IndexError("Invalid Rotor List Argument for Enigma M3")
 
             self.rotors["left"] = self._rotor_types[rotor_list[0]]
@@ -97,9 +95,7 @@ class Enigma:
             if not rotor_list:
                 rotor_list = [5, 3, 1, 2]
 
-            try:
-                assert len(rotor_list) == 4
-            except AssertionError:
+            if len(rotor_list) != 4:
                 raise IndexError("Invalid Rotor List Argument for Enigma M4")
 
             self.rotors["left"] = self._rotor_types[rotor_list[0]]
@@ -108,13 +104,13 @@ class Enigma:
             self.rotors["right"] = self._rotor_types[rotor_list[3]]
 
         else:
-            raise TypeError("Unrecognised Enigma type '{}'".format(self.type))
+            raise TypeError(f"Unrecognised Enigma type '{self.type}'")
 
         # After setting rotors, get a tuple of the dict keys for index tricks.
         self._rotor_dict_keys = tuple(self.rotors.keys())
 
         # Setup the reflector choice
-        user_reflector = user_reflector if user_reflector else "B"
+        user_reflector = user_reflector or "B"
         self.reflector = self._reflector_types[user_reflector]
 
         # Setup plugboard
@@ -146,9 +142,9 @@ class Enigma:
         amount (int)        Amount of intervals to rotate by
 
         """
-        for j in range(amount):
-            letter = "A"
+        letter = "A"
 
+        for j in range(amount):
             self.logger.debug(
                 "Ringstellung[%s]: Conversion for rotor %s was %s to %s",
                 j,
@@ -261,13 +257,12 @@ class Enigma:
         # Offset between the two letter positions of the two rotors
         interval = zero_point_2 - zero_point_1
 
+        i = list(range(26))
         # Find the subsequent letter from the second rotor given the index on
         # the first taking into account the maximum index of 25
         if interval > 0:
-            i = list(range(26))
             n = i[(terminal + interval) % len(i)]
         else:
-            i = list(range(26))
             n = i[(26 + terminal + interval) % len(i)]
 
         self.logger.debug(
@@ -280,8 +275,7 @@ class Enigma:
 
         if not self.rotors[name2].alpha[n]:
             raise AssertionError(
-                "Inter-rotor conversion from {} -> {}"
-                "failed for letter {}".format(name1, name2, letter)
+                f"Inter-rotor conversion from {name1} -> {name2} failed for letter {letter}"
             )
 
         return self.rotors[name2].alpha[n]
@@ -346,7 +340,7 @@ class Enigma:
             adj_rotor_key = self._rotor_dict_keys[adj_rotor_key_index]
             cipher = self._get_inter_rotor_conv(rotor_key, adj_rotor_key, cipher)
         else:
-            assert False, "Shouldn't get here!"
+            raise ValueError("Failed to create cipher")
 
         cipher = self._get_reflector_conv(cipher)
 
@@ -365,7 +359,7 @@ class Enigma:
                 # At this point we should be ready for reflection
                 break
         else:
-            assert False, "Shouldn't get here!"
+            raise ValueError("Failed to create cipher")
 
         # Pass cipher back through plugboard
         cipher_out = self.plugboard.plugboard_conversion_inv(cipher)
@@ -416,12 +410,7 @@ class Enigma:
         for _ in range(remainder):
             phrase += random.choice(string.ascii_letters.upper())
 
-        out_str = ""
-
-        # Encode the phrase one letter at a time assembling the results into
-        # an output string
-        for letter in list(phrase):
-            out_str += self.type_letter(letter)
+        out_str = "".join(self.type_letter(letter) for letter in list(phrase))
 
         # Format the output to be groups five letters in size
         out_str = " ".join(out_str[i : i + 5] for i in range(0, len(out_str), 5))
@@ -459,19 +448,14 @@ class Enigma:
         letter_2    (char)      Second letter to connect with wire.
 
         """
-        try:
-            assert isinstance(letter_1, str) and isinstance(letter_2, str)
-        except AssertionError as e:
-            self.logger.error(
+        if not isinstance(letter_1, str) and isinstance(letter_2, str):
+            raise ValueError(
                 "Invalid Characters for Plugboard Rewiring '%s' and '%s'",
                 letter_1,
                 letter_2,
             )
-            raise e
-        try:
-            assert letter_1 != letter_2
-        except AssertionError as e:
-            self.logger.error("Letters for Plugboard Rewiring must be Unique")
-            raise e
+
+        if letter_1 != letter_2:
+            raise AssertionError("Letters for Plugboard Rewiring must be Unique")
 
         self.plugboard.rewire(letter_1, letter_2)

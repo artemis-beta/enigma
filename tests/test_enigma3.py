@@ -56,11 +56,8 @@ class TestEnigma(unittest.TestCase):
             orig,
         )
         logger.debug("Machine type: %s" % machine.type)
-        assert (
-            phrase == orig
-        ), "ERROR: Reverse Encryption '{}' Does Not Match Original Phrase '{}'".format(
-            orig, phrase
-        )
+        if phrase != orig:
+            raise AssertionError(f"ERROR: Reverse Encryption '{orig}' Does Not Match Original Phrase '{phrase}'")
 
     @given(
         key=strategies.text(alphabet=string.ascii_uppercase, max_size=10),
@@ -91,7 +88,7 @@ class TestEnigma(unittest.TestCase):
             machine2.ringstellung(name, i)
         _out = machine.type_phrase(_msg)
         _out2 = machine2.type_phrase(_out)
-        self.assertEqual(_out.replace(" ", "")[:-4], "AIJYSDOZODD") and assertIs(
+        self.assertEqual(_out.replace(" ", "")[:-4], "AIJYSDOZODD") and self.assertIs(
             _out2[:-4], _msg
         )
 
