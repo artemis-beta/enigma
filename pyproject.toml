@@ -9,6 +9,7 @@ keywords = ["enigma", "cipher", "encoding"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+PySimpleGUI = "^4.60.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"

@@ -13,6 +13,7 @@
 
 import random
 import string
+import typing
 
 
 class Rotor:
@@ -546,3 +547,15 @@ class Rotor8(Rotor):
 
         self.notches = ["A", "N"]
         self.face = "A"
+
+
+ROTOR_TYPES: typing.Dict[int, Rotor] = {
+    1: Rotor1(),
+    2: Rotor2(),
+    3: Rotor3(),
+    4: Rotor4(),
+    5: Rotor5(),
+    6: Rotor6(),
+    7: Rotor7(),
+    8: Rotor8()
+}
