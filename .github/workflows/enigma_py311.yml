@@ -19,6 +19,6 @@ jobs:
         - name: Run Bandit
           run: poetry run bandit -r enigma -c pyproject.toml
         - name: "Upload coverage to Codecov"
-          uses: codecov/codecov-action@v1
+          uses: codecov/codecov-action@v3
           with:
             fail_ci_if_error: true
