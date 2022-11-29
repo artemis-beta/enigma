@@ -1,7 +1,7 @@
 # ENIGMA
-![python3.8](https://github.com/artemis-beta/enigma/workflows/python3.8/badge.svg) ![python3.9](https://github.com/artemis-beta/enigma/workflows/python3.9/badge.svg) ![python3.10](https://github.com/artemis-beta/enigma/workflows/python3.10/badge.svg)
+![python3.8](https://github.com/artemis-beta/enigma/workflows/python3.8/badge.svg) ![python3.9](https://github.com/artemis-beta/enigma/workflows/python3.9/badge.svg) ![python3.10](https://github.com/artemis-beta/enigma/workflows/python3.10/badge.svg) ![python3.11](https://github.com/artemis-beta/enigma/workflows/python3.11/badge.svg)
 
-[![CodeFactor](https://www.codefactor.io/repository/github/artemis-beta/enigma/badge)](https://www.codefactor.io/repository/github/artemis-beta/enigma)![GitHub](https://img.shields.io/github/license/artemis-beta/enigma) [![codecov](https://codecov.io/gh/artemis-beta/enigma/branch/master/graph/badge.svg?token=9D087TSZEA)](https://codecov.io/gh/artemis-beta/enigma)
+[![CodeFactor](https://www.codefactor.io/repository/github/artemis-beta/enigma/badge)](https://www.codefactor.io/repository/github/artemis-beta/enigma)![GitHub](https://img.shields.io/github/license/artemis-beta/enigma) [![codecov](https://codecov.io/gh/artemis-beta/enigma/branch/master/graph/badge.svg?token=9D087TSZEA)](https://codecov.io/gh/artemis-beta/enigma) 
 
 This is a small application written in python which simulates both the M3 and M4, 3 and 4 rotor variants of the Enigma machine which was utilised by German forces during WWII to encode information.
 

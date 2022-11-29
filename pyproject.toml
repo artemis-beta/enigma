@@ -8,14 +8,14 @@ readme = "README.md"
 keywords = ["enigma", "cipher", "encoding"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.8,<3.12"
 
-[tool.poetry.dev-dependencies]
-pytest = "^7.1.2"
+[tool.poetry.group.dev.dependencies]
 pytest-cov = "^3.0.0"
 black = "^22.6.0"
 hypothesis = "^6.52.3"
 bandit = {extras = ["toml"], version = "^1.7.4"}
+pytest = "^7.2.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
