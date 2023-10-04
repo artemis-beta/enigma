@@ -8,7 +8,7 @@ readme = "README.md"
 keywords = ["enigma", "cipher", "encoding"]
 
 [tool.poetry.dependencies]
-python = "^3.8,<3.12"
+python = "^3.8,<3.13"
 
 [tool.poetry.group.dev.dependencies]
 pytest-cov = "^3.0.0"
