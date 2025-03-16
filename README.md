@@ -1,5 +1,5 @@
 # ENIGMA
-![python3.9](https://github.com/artemis-beta/enigma/workflows/python3.9/badge.svg) ![python3.10](https://github.com/artemis-beta/enigma/workflows/python3.10/badge.svg) ![python3.11](https://github.com/artemis-beta/enigma/workflows/python3.11/badge.svg) ![python3.12](https://github.com/artemis-beta/enigma/actions/workflows/enigma_py312.yml/badge.svg)
+![python3.10](https://github.com/artemis-beta/enigma/workflows/python3.10/badge.svg) ![python3.11](https://github.com/artemis-beta/enigma/workflows/python3.11/badge.svg) ![python3.12](https://github.com/artemis-beta/enigma/actions/workflows/enigma_py312.yml/badge.svg)![python3.13](https://github.com/artemis-beta/enigma/workflows/python3.13/badge.svg) 
 
 [![CodeFactor](https://www.codefactor.io/repository/github/artemis-beta/enigma/badge)](https://www.codefactor.io/repository/github/artemis-beta/enigma)![GitHub](https://img.shields.io/github/license/artemis-beta/enigma) [![codecov](https://codecov.io/gh/artemis-beta/enigma/branch/master/graph/badge.svg?token=9D087TSZEA)](https://codecov.io/gh/artemis-beta/enigma) 
 
